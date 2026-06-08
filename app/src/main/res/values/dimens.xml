@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Padding / spacing -->
+    <dimen name="padding_screen">16dp</dimen>
+    <dimen name="padding_section">24dp</dimen>
+    <dimen name="padding_card">12dp</dimen>
+    <dimen name="spacing_small">8dp</dimen>
+    <dimen name="spacing_medium">12dp</dimen>
+
+    <!-- Typography -->
+    <dimen name="text_size_title">26sp</dimen>
+    <dimen name="text_size_section">18sp</dimen>
+    <dimen name="text_size_body">15sp</dimen>
+    <dimen name="text_size_caption">13sp</dimen>
+
+    <!-- Shapes -->
+    <dimen name="corner_radius_badge">12dp</dimen>
+    <dimen name="corner_radius_quote">8dp</dimen>
+
+    <!-- Icons -->
+    <dimen name="flag_size">24dp</dimen>
+    <dimen name="icon_size_section">20dp</dimen>
+</resources>

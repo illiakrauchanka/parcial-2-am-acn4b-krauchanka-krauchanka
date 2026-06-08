@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App palette -->
+    <color name="color_primary">#1E5F8E</color>
+    <color name="color_primary_dark">#13405F</color>
+    <color name="color_accent">#F2A93B</color>
+
+    <!-- Surfaces -->
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#F1F3F5</color>
+
+    <!-- Text -->
+    <color name="text_primary">#1B2A36</color>
+    <color name="text_secondary">#5C6B77</color>
+    <color name="text_on_primary">#FFFFFF</color>
+
+    <!-- Status semantic colors -->
+    <color name="status_allowed">#2EA86F</color>
+    <color name="status_restricted">#E08415</color>
+    <color name="status_penal">#A1241F</color>
+
+    <!-- Quote styling -->
+    <color name="quote_background">#FBF7EA</color>
+    <color name="quote_border">#C9A227</color>
+</resources>

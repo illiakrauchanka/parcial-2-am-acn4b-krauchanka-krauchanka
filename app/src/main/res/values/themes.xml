@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.MedTraveler" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
+
+    <style name="SectionHeader" parent="android:Widget.TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_section</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/color_primary</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_small</item>
+    </style>
+</resources>

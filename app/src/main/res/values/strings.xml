@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App-level -->
+    <string name="app_name">MedTraveler</string>
+
+    <!-- Country -->
+    <string name="country_argentina">Argentina</string>
+
+    <!-- Detail screen UI labels -->
+    <string name="detail_back">Volver</string>
+    <string name="detail_section_description">Descripción</string>
+    <string name="detail_section_key_facts">Datos clave</string>
+    <string name="detail_section_law">Extracto de ley</string>
+    <string name="detail_section_penalty">Penalidad</string>
+    <string name="detail_open_source">Abrir fuente oficial</string>
+
+    <!-- Status badges -->
+    <string name="status_allowed">PERMITIDO</string>
+    <string name="status_restricted">RESTRINGIDO</string>
+    <string name="status_penal">PENAL</string>
+
+    <!-- Status full descriptions (for toast) -->
+    <string name="status_desc_allowed">Permitido el ingreso al país sin restricciones especiales.</string>
+    <string name="status_desc_restricted">Permitido bajo receta archivada y/o cantidad limitada.</string>
+    <string name="status_desc_penal">El porte sin autorización implica responsabilidad penal.</string>
+
+    <!-- Datos clave row labels -->
+    <string name="fact_label_substance">Sustancia activa</string>
+    <string name="fact_label_group">Grupo</string>
+    <string name="fact_label_prescription">Receta</string>
+    <string name="fact_label_brand">Marca comercial</string>
+
+    <!-- Tramadol-specific (sample data) -->
+    <string name="tramadol_name">Tramadol</string>
+    <string name="tramadol_active_substance">Tramadol clorhidrato</string>
+    <string name="tramadol_group">Opioide sintético</string>
+    <string name="tramadol_prescription">Receta archivada obligatoria</string>
+    <string name="tramadol_brand">Tramal, Calmador, Nobligan</string>
+    <string name="tramadol_description">El Tramadol es un analgésico opioide sintético utilizado para el tratamiento del dolor moderado a severo. Actúa sobre los receptores opioides del sistema nervioso central inhibiendo la recaptación de noradrenalina y serotonina. Su uso está estrictamente regulado en Argentina debido a su potencial de abuso y dependencia.</string>
+    <string name="tramadol_law_excerpt">"Será reprimido con prisión de cuatro a quince años y multa el que sin autorización o con destino ilegítimo introduzca al país, exporte, almacene, fraccione, comercie, entregue, suministre, aplique o facilite estupefacientes, materias primas para su producción o medicamentos que los contengan." — Ley 23.737, Art. 5</string>
+    <string name="tramadol_penalty">Hasta 2-3 años de prisión por porte sin receta archivada vigente. Confiscación del medicamento y posible apertura de causa penal en aduana.</string>
+    <string name="tramadol_source_url">https://www.argentina.gob.ar/anmat</string>
+
+    <!-- Welcome -->
+    <string name="welcome_pitch">Chequeá si tus medicamentos son legales en el país al que viajás.</string>
+    <string name="welcome_enter">Entrar</string>
+    <string name="welcome_auth_error">No se pudo iniciar sesión. Revisá tu conexión.</string>
+
+    <!-- Country list -->
+    <string name="country_list_title">¿A qué país viajás?</string>
+    <string name="trip_my_list">Mi lista</string>
+
+    <!-- Medicine list -->
+    <string name="medicine_search_hint">Buscar por nombre o sustancia</string>
+
+    <!-- Detail extras -->
+    <string name="detail_add_trip">Agregar a mi lista de viaje</string>
+    <string name="detail_added_ok">Agregado a tu lista de viaje</string>
+    <string name="detail_added_fail">No se pudo agregar</string>
+    <string name="detail_load_error">No se pudo cargar el medicamento</string>
+
+    <!-- Trip list -->
+    <string name="trip_title">Mi lista de viaje</string>
+    <string name="trip_empty">Todavía no agregaste medicamentos. Buscá uno y tocá \"Agregar a mi lista de viaje\".</string>
+    <string name="trip_remove">Quitar</string>
+    <string name="trip_remove_fail">No se pudo quitar</string>
+</resources>
