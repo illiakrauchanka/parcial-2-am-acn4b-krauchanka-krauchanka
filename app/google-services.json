@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "936328080408",
+    "project_id": "medtraveler-f49cc",
+    "storage_bucket": "medtraveler-f49cc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:936328080408:android:5b13d1c2702f872999276d",
+        "android_client_info": {
+          "package_name": "com.davinci.medtraveler"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXR4FZ_aIVfsQDWWCmxnxveRNTbW7qPtg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
