@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="@dimen/padding_screen"
+    android:background="@color/surface">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="@string/my_meds_title" android:textSize="@dimen/text_size_section"
+        android:textStyle="bold" android:textColor="@color/text_primary"/>
+    <TextView android:id="@+id/txt_empty"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_medium" android:text="@string/my_meds_empty"
+        android:textColor="@color/text_secondary" android:visibility="gone"/>
+    <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+        <LinearLayout android:id="@+id/my_meds_container"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:layout_marginTop="@dimen/spacing_medium"/>
+    </ScrollView>
+    <Button android:id="@+id/btn_logout"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="@string/auth_logout"/>
+</LinearLayout>
