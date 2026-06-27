@@ -1,0 +1,22 @@
+{
+  "AR": {
+    "version": 1,
+    "updatedAt": "2026-06-27T00:00:00Z",
+    "items": [
+      {
+        "id": "ar-tramadol",
+        "name": "Tramadol",
+        "status": "PENAL",
+        "activeSubstance": "Tramadol clorhidrato",
+        "group": "Opioide sintético",
+        "prescription": "Receta archivada obligatoria",
+        "brand": "Tramal, Calmador, Nobligan",
+        "description": "Analgésico opioide sintético para dolor moderado a severo. Uso regulado por su potencial de abuso.",
+        "lawExcerpt": "\"Será reprimido con prisión de cuatro a quince años... el que sin autorización introduzca al país... medicamentos que los contengan.\" — Ley 23.737, Art. 5",
+        "penalty": "Hasta 2-3 años de prisión por porte sin receta archivada vigente; confiscación en aduana.",
+        "sourceUrl": "https://www.argentina.gob.ar/anmat",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Tramadol_Structural_Formula_V1.svg/320px-Tramadol_Structural_Formula_V1.svg.png"
+      }
+    ]
+  }
+}
