@@ -19,15 +19,19 @@ import androidx.core.content.ContextCompat;
 import com.bumptech.glide.Glide;
 import com.davinci.medtraveler.R;
 import com.davinci.medtraveler.data.AuthManager;
-import com.davinci.medtraveler.data.FirestoreRepo;
+import com.davinci.medtraveler.data.CatalogRepo;
+import com.davinci.medtraveler.data.UserMedsRepo;
 import com.davinci.medtraveler.model.Medicine;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MedicineDetailActivity extends AppCompatActivity {
 
     private static final int LAW_COLLAPSED_MAX_LINES = 3;
 
-    private final FirestoreRepo repo = new FirestoreRepo();
     private final AuthManager auth = new AuthManager();
+    private final ExecutorService io = Executors.newSingleThreadExecutor();
     private Medicine medicine;
 
     @Override
@@ -38,14 +42,17 @@ public class MedicineDetailActivity extends AppCompatActivity {
         wireBackButton();
 
         String medId = getIntent().getStringExtra(MedicineListActivity.EXTRA_MED_ID);
-        repo.loadMedicine(medId, m -> {
-            if (m == null) {
-                Toast.makeText(this, R.string.detail_load_error, Toast.LENGTH_LONG).show();
-                finish();
-                return;
-            }
-            medicine = m;
-            bindAll();
+        io.execute(() -> {
+            Medicine m = new CatalogRepo(this).byId(medId);
+            runOnUiThread(() -> {
+                if (m == null) {
+                    Toast.makeText(this, R.string.detail_load_error, Toast.LENGTH_LONG).show();
+                    finish();
+                    return;
+                }
+                medicine = m;
+                bindAll();
+            });
         });
     }
 
@@ -56,7 +63,7 @@ public class MedicineDetailActivity extends AppCompatActivity {
         renderKeyFacts();
         wireOpenSourceButton();
         wireLawExcerptToggle();
-        wireAddTripButton();
+        wireTakeMedButton();
     }
 
     @SuppressLint("SetTextI18n")
@@ -143,21 +150,27 @@ public class MedicineDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void wireAddTripButton() {
+    private void wireTakeMedButton() {
         Button btn = findViewById(R.id.btn_add_trip);
+        btn.setText(R.string.detail_take_med);
         btn.setOnClickListener(v -> {
             String uid = auth.currentUid();
             if (uid == null) {
-                Toast.makeText(this, R.string.welcome_auth_error, Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, AuthActivity.class));
                 return;
             }
             btn.setEnabled(false);
-            repo.addToTrip(uid, medicine, success -> {
+            new UserMedsRepo().addMyMed(uid, medicine, ok -> {
                 Toast.makeText(this,
-                        success ? R.string.detail_added_ok : R.string.detail_added_fail,
+                        ok ? R.string.detail_taken_ok : R.string.detail_added_fail,
                         Toast.LENGTH_SHORT).show();
                 btn.setEnabled(true);
             });
         });
+    }
+
+    @Override protected void onDestroy() {
+        super.onDestroy();
+        io.shutdown();
     }
 }

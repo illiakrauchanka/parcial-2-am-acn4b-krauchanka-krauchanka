@@ -2,77 +2,139 @@ package com.davinci.medtraveler.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.davinci.medtraveler.R;
-import com.davinci.medtraveler.data.FirestoreRepo;
+import com.davinci.medtraveler.data.CatalogMeta;
+import com.davinci.medtraveler.data.CatalogRepo;
+import com.davinci.medtraveler.data.CatalogUpdater;
+import com.davinci.medtraveler.model.CountryCatalog;
 import com.davinci.medtraveler.model.Medicine;
 import com.davinci.medtraveler.model.Status;
-import com.davinci.medtraveler.util.SearchFilter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class MedicineListActivity extends AppCompatActivity {
+public class MedicineListActivity extends BaseActivity {
 
+    public static final String EXTRA_COUNTRY_CODES = "country_codes";
     public static final String EXTRA_MED_ID = "med_id";
 
-    private final FirestoreRepo repo = new FirestoreRepo();
-    private final List<Medicine> all = new ArrayList<>();
+    protected CatalogRepo repo;
+    protected CatalogMeta meta;
+    protected CatalogUpdater updater;
+    protected List<String> codes;
     private LinearLayout container;
+    private final ExecutorService io = Executors.newSingleThreadExecutor();
+    private final com.davinci.medtraveler.data.AuthManager auth =
+            new com.davinci.medtraveler.data.AuthManager();
+    private java.util.Set<String> myMedIds = new java.util.HashSet<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_medicine_list);
+        setContentWithChrome(R.layout.activity_medicine_list);
+        bindViews();
 
-        String code = getIntent().getStringExtra(CountryListActivity.EXTRA_COUNTRY_CODE);
-        String name = getIntent().getStringExtra(CountryListActivity.EXTRA_COUNTRY_NAME);
-        ((TextView) findViewById(R.id.txt_country_title)).setText(name);
-        container = findViewById(R.id.medicines_container);
+        repo = new CatalogRepo(this);
+        meta = new CatalogMeta(this);
+        updater = new CatalogUpdater(this);
 
-        EditText search = findViewById(R.id.edit_search);
-        search.addTextChangedListener(new TextWatcher() {
-            public void beforeTextChanged(CharSequence s, int a, int b, int c) {}
-            public void onTextChanged(CharSequence s, int a, int b, int c) { render(s.toString()); }
-            public void afterTextChanged(Editable s) {}
+        String[] arr = getIntent().getStringArrayExtra(EXTRA_COUNTRY_CODES);
+        codes = arr == null ? new ArrayList<>() : new ArrayList<>(Arrays.asList(arr));
+
+        renderAll();
+        updater.refreshCountries(codes, false, (updated, total) -> {
+            if (updated > 0) { renderAll(); refreshDbStatus(); }
         });
 
-        repo.loadMedicines(code, meds -> {
-            all.clear();
-            all.addAll(meds);
-            render("");
+        String uid = auth.currentUid();
+        if (uid != null) {
+            new com.davinci.medtraveler.data.UserMedsRepo().loadMyMedIds(uid, ids -> {
+                myMedIds = ids;
+                renderAll();
+            });
+        }
+    }
+
+    /** Allows BaseActivity wiring in Phase 9 to override how the content view is set. */
+    protected void bindViews() {
+        container = findViewById(R.id.sections_container);
+    }
+
+    protected void renderAll() {
+        io.execute(() -> {
+            Map<String, List<Medicine>> byCountry = new LinkedHashMap<>();
+            for (String code : codes) byCountry.put(code, repo.byCountry(code));
+            runOnUiThread(() -> draw(byCountry));
         });
     }
 
-    private void render(String query) {
+    private void draw(Map<String, List<Medicine>> byCountry) {
+        if (container == null) container = findViewById(R.id.sections_container);
         container.removeAllViews();
-        for (Medicine m : SearchFilter.filter(all, query)) addRow(m);
+        for (String code : codes) {
+            addHeader(code);
+            for (Medicine m : byCountry.get(code)) addRow(m);
+        }
     }
 
-    private void addRow(Medicine m) {
+    private void addHeader(String code) {
+        CountryCatalog.Country c = CountryCatalog.byCode(code);
+        View h = getLayoutInflater().inflate(R.layout.row_country_section_header, container, false);
+        if (c != null) {
+            ((ImageView) h.findViewById(R.id.img_flag)).setImageResource(c.flagRes);
+            ((TextView) h.findViewById(R.id.txt_country)).setText(c.name);
+        }
+        ((TextView) h.findViewById(R.id.txt_meta)).setText(
+                getString(R.string.section_meta_format, meta.getVersion(code), meta.getUpdatedAt(code)));
+        container.addView(h);
+    }
+
+    protected void addRow(Medicine m) {
         View row = getLayoutInflater().inflate(R.layout.row_medicine, container, false);
         ((TextView) row.findViewById(R.id.txt_medicine_name)).setText(m.name);
-        ((TextView) row.findViewById(R.id.txt_medicine_substance)).setText(m.activeSubstance);
-        TextView badge = row.findViewById(R.id.txt_status_badge);
-        applyBadge(badge, m.status);
+        ((TextView) row.findViewById(R.id.txt_medicine_subtitle)).setText(m.description);
+        applyBadge(row.findViewById(R.id.txt_status_badge), m.status);
         Glide.with(this).load(m.imageUrl).into((ImageView) row.findViewById(R.id.img_medicine));
+        decorateMine(row, m); // no-op until Task 16 overrides it
         row.setOnClickListener(v -> {
             Intent i = new Intent(this, MedicineDetailActivity.class);
             i.putExtra(EXTRA_MED_ID, m.id);
             startActivity(i);
         });
         container.addView(row);
+    }
+
+    @Override protected void onUpdateDbRequested() {
+        showProgress(true);
+        android.widget.Toast.makeText(this, R.string.updating_db, android.widget.Toast.LENGTH_SHORT).show();
+        updater.refreshCountries(codes, true, (updated, total) -> {
+            showProgress(false);
+            renderAll();
+            refreshDbStatus();
+            android.widget.Toast.makeText(this,
+                    updated > 0 ? R.string.db_updated : R.string.db_no_changes,
+                    android.widget.Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    protected void decorateMine(View row, Medicine m) {
+        boolean mine = myMedIds.contains(m.id);
+        row.findViewById(R.id.txt_mine_badge).setVisibility(mine ? View.VISIBLE : View.GONE);
+        row.findViewById(R.id.row_root).setBackgroundResource(
+                mine ? R.drawable.bg_mine_highlight : android.R.color.transparent);
     }
 
     private void applyBadge(TextView badge, Status status) {
@@ -85,5 +147,11 @@ public class MedicineListActivity extends AppCompatActivity {
         }
         badge.setText(textRes);
         badge.setBackgroundTintList(ContextCompat.getColorStateList(this, colorRes));
+    }
+
+    @Override protected void onDestroy() {
+        super.onDestroy();
+        io.shutdown();
+        updater.shutdown();
     }
 }
