@@ -20,4 +20,7 @@
     <!-- Icons -->
     <dimen name="flag_size">24dp</dimen>
     <dimen name="icon_size_section">20dp</dimen>
+
+    <!-- Global top loading indicator -->
+    <dimen name="progress_height">3dp</dimen>
 </resources>

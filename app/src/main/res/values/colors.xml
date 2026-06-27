@@ -22,4 +22,7 @@
     <!-- Quote styling -->
     <color name="quote_background">#FBF7EA</color>
     <color name="quote_border">#C9A227</color>
+
+    <!-- Highlight for the user's saved meds -->
+    <color name="mine_highlight">#FFF8E1</color>
 </resources>
