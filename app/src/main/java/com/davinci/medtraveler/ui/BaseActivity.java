@@ -77,7 +77,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             int id = item.getItemId();
             if (id == R.id.nav_search) startActivity(new Intent(this, SearchActivity.class));
             else if (id == R.id.nav_contact) openContact();
-            else if (id == R.id.nav_update) onUpdateDbRequested();
             else if (id == R.id.nav_account) openAccount();
             return true;
         });
@@ -106,6 +105,21 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void showProgress(boolean show) {
         runOnUiThread(() -> { if (topBar != null) topBar.setVisibility(show ? View.VISIBLE : View.GONE); });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_update, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        if (item.getItemId() == R.id.action_update_db) {
+            onUpdateDbRequested();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
