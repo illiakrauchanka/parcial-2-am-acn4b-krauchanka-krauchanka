@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.MedTraveler" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
+    <style name="Theme.MedTraveler" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorOnPrimary">@color/text_on_primary</item>
+        <item name="colorSecondary">@color/color_accent</item>
+        <item name="colorAccent">@color/color_primary</item>
+        <item name="android:colorBackground">@color/surface</item>
+        <item name="android:statusBarColor">@color/toolbar_background</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
 
     <style name="SectionHeader" parent="android:Widget.TextView">
         <item name="android:layout_width">match_parent</item>
