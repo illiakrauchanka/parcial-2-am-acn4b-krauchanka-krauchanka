@@ -23,10 +23,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.CountryListActivity" android:exported="false" />
         <activity android:name=".ui.MedicineListActivity" android:exported="false" />
         <activity android:name=".ui.MedicineDetailActivity" android:exported="false" />
-        <activity android:name=".ui.TripListActivity" android:exported="false" />
+        <activity android:name=".ui.AuthActivity" android:exported="false" />
+        <activity android:name=".ui.ProfileActivity" android:exported="false" />
+        <activity android:name=".ui.SearchActivity" android:exported="false" />
     </application>
 
 </manifest>
