@@ -41,7 +41,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         Toolbar toolbar = new Toolbar(this);
         toolbar.setTitle(R.string.app_name);
-        toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.color_primary));
+        toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.toolbar_background));
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.text_on_primary));
         col.addView(toolbar, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
