@@ -75,7 +75,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         nav.setNavigationItemSelectedListener(item -> {
             drawer.closeDrawers();
             int id = item.getItemId();
-            if (id == R.id.nav_search) startActivity(new Intent(this, SearchActivity.class));
+            if (id == R.id.nav_home) openHome();
+            else if (id == R.id.nav_search) startActivity(new Intent(this, SearchActivity.class));
             else if (id == R.id.nav_contact) openContact();
             else if (id == R.id.nav_account) openAccount();
             return true;
@@ -131,6 +132,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void onUpdateDbRequested() { }
+
+    private void openHome() {
+        Intent i = new Intent(this, WelcomeActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+    }
 
     private void openAccount() {
         boolean logged = new AuthManager().isLoggedIn();

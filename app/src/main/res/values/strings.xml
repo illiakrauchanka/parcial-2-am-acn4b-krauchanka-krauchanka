@@ -50,6 +50,7 @@
 
     <!-- Drawer / DB status -->
     <string name="menu_title">Menú</string>
+    <string name="menu_home">Inicio</string>
     <string name="menu_search">Buscar</string>
     <string name="menu_contact">Contacto</string>
     <string name="menu_update_db">Actualizar base</string>
