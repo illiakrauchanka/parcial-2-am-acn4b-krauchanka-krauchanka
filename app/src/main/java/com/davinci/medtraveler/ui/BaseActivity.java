@@ -91,10 +91,18 @@ public abstract class BaseActivity extends AppCompatActivity {
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         toggle.getDrawerArrowDrawable().setColor(ContextCompat.getColor(this, R.color.text_on_primary));
+
+        updateContactVisibility();
     }
 
     protected void refreshDbStatus() {
         if (nav != null && nav.getHeaderCount() > 0) bindDbStatus(nav.getHeaderView(0));
+    }
+
+    protected void updateContactVisibility() {
+        if (nav == null) return;
+        android.view.MenuItem item = nav.getMenu().findItem(R.id.nav_contact);
+        if (item != null) item.setVisible(new AuthManager().isLoggedIn());
     }
 
     private void bindDbStatus(View header) {
@@ -129,6 +137,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         // Keep the drawer header's DB date current after background downloads
         // update it from other screens or background executors.
         refreshDbStatus();
+        updateContactVisibility();
     }
 
     protected void onUpdateDbRequested() { }
