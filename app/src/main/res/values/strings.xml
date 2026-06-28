@@ -70,6 +70,8 @@
     <string name="auth_logout">Cerrar sesión</string>
     <string name="auth_error">No se pudo completar. Revisá los datos y la conexión.</string>
     <string name="auth_logged_in">Sesión iniciada</string>
+    <string name="auth_err_email_required">Ingresá tu email.</string>
+    <string name="auth_err_password_short">La contraseña debe tener al menos %1$d caracteres.</string>
 
     <!-- My meds / detail -->
     <string name="detail_take_med">Tomo este medicamento</string>

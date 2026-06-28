@@ -9,13 +9,22 @@ public class AuthManager {
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
 
     public void register(String email, String password, AuthCallback cb) {
-        auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(t -> cb.onResult(t.isSuccessful()));
+        try {
+            auth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(t -> cb.onResult(t.isSuccessful()));
+        } catch (IllegalArgumentException ex) {
+            // empty/null email/password would throw synchronously; report as failure
+            cb.onResult(false);
+        }
     }
 
     public void login(String email, String password, AuthCallback cb) {
-        auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(t -> cb.onResult(t.isSuccessful()));
+        try {
+            auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(t -> cb.onResult(t.isSuccessful()));
+        } catch (IllegalArgumentException ex) {
+            cb.onResult(false);
+        }
     }
 
     public void logout() { auth.signOut(); }
