@@ -83,7 +83,7 @@
     <string name="my_med_line">%1$s — %2$s</string>
 
     <!-- Contact -->
-    <string name="contact_email">soporte@medtraveler.example</string>
+    <string name="contact_email">ilja.kravchenko@gmail.com</string>
     <string name="contact_subject">Consulta MedTraveler</string>
     <string name="contact_no_app">No hay una app de correo instalada</string>
 
