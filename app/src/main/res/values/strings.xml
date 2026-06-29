@@ -97,6 +97,7 @@
     <string name="contact_email">ilja.kravchenko@gmail.com</string>
     <string name="contact_subject">Consulta MedTraveler</string>
     <string name="contact_no_app">No hay una app de correo instalada</string>
+    <string name="contact_no_app_with_address">No hay una app de correo. Escribinos a %1$s</string>
 
     <!-- Section header -->
     <string name="section_meta_format">v%1$d · %2$s</string>

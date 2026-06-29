@@ -1,6 +1,17 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.services)
+}
+
+// Release keystore credentials live outside the repo (parcial2-planning/keystore.properties)
+// and are never committed. When absent, the release variant falls back to the debug
+// signing key so the build still works locally for testing.
+File keystoreProps = rootProject.file('keystore.properties')
+Properties ks = new Properties()
+if (keystoreProps.exists()) {
+    ks.load(new FileInputStream(keystoreProps))
 }
 
 android {
@@ -21,10 +32,27 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            if (ks.containsKey('storeFile')) {
+                storeFile file(ks['storeFile'])
+                storePassword ks['storePassword']
+                keyAlias ks['keyAlias']
+                keyPassword ks['keyPassword']
+            }
+        }
+    }
+
     buildTypes {
         release {
+            // Keep R8 off for the first Play submission to avoid stripped-symbol crashes;
+            // enable later once keep rules are validated. See proguard-rules.pro.
             minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (ks.containsKey('storeFile')) {
+                signingConfig signingConfigs.release
+            }
         }
     }
     compileOptions {

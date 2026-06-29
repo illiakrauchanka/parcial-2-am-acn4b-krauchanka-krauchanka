@@ -157,8 +157,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         Intent i = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + getString(R.string.contact_email)));
         i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.contact_subject));
         if (i.resolveActivity(getPackageManager()) == null) {
-            android.widget.Toast.makeText(this, R.string.contact_no_app,
-                    android.widget.Toast.LENGTH_SHORT).show();
+            // Cold AOSP image may have no mail client at all — surface the address.
+            android.widget.Toast.makeText(this,
+                    getString(R.string.contact_no_app_with_address, getString(R.string.contact_email)),
+                    android.widget.Toast.LENGTH_LONG).show();
             return;
         }
         startActivity(Intent.createChooser(i, getString(R.string.menu_contact)));

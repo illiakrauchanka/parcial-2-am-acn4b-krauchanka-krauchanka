@@ -1,21 +1,25 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
+# MedTraveler — ProGuard / R8 rules
 #
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# For the first Play Store submission minifyEnabled is OFF, so these rules
+# are not applied yet. They are kept here so flipping minifyEnabled=true later
+# (smaller AAB) does not silently strip reflection-heavy deps.
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# --- Java 11 sources of line numbers for crash triage ---
+-keepattributes SourceFile,LineNumberTable
+-renamesourcefileattribute SourceFile
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# --- Model classes used by Room / JSON parsing (field names accessed by name) ---
+-keep class com.davinci.medtraveler.model.** { *; }
+-keep class com.davinci.medtraveler.data.local.** { *; }
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# --- Glide uses generated API stubs; keep the Generated API. ---
+-keep public class com.bumptech.glide.GeneratedAppGlideModule { *; }
+
+# --- Firebase Auth / Firestore SDK ship their own consumer rules; keep model. ---
+-keep class com.google.firebase.auth.** { *; }
+
+# --- OkHttp / Kotlin metadata (defensive) ---
+-dontwarn okhttp3.internal.platform.**
+-dontwarn org.conscrypt.**
+-dontwarn org.bouncycastle.**
+-dontwarn org.openjsse.**

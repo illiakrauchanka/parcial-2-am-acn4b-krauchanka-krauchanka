@@ -39,3 +39,8 @@ Thumbs.db
 
 # Assignment PDF (kept locally only)
 parcial_01.pdf
+
+# Release signing keys and signing config (never commit)
+keystore.properties
+*.keystore
+*.jks
