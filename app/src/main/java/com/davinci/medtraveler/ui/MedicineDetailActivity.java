@@ -131,8 +131,11 @@ public class MedicineDetailActivity extends AppCompatActivity {
 
     private void wireOpenSourceButton() {
         Button btnOpenSource = findViewById(R.id.btn_open_source);
-        btnOpenSource.setOnClickListener(v ->
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(medicine.sourceUrl))));
+        btnOpenSource.setOnClickListener(v -> {
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(medicine.sourceUrl));
+            if (i.resolveActivity(getPackageManager()) != null) startActivity(i);
+            else Toast.makeText(this, R.string.contact_no_app, Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void wireLawExcerptToggle() {
