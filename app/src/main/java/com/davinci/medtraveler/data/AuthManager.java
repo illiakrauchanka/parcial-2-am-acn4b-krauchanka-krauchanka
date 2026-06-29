@@ -1,7 +1,9 @@
 package com.davinci.medtraveler.data;
 
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 public class AuthManager {
     public interface AuthCallback { void onResult(boolean ok); }
@@ -25,6 +27,11 @@ public class AuthManager {
         } catch (IllegalArgumentException ex) {
             cb.onResult(false);
         }
+    }
+
+    public void loginWithGoogle(String idToken, AuthCallback cb) {
+        AuthCredential cred = GoogleAuthProvider.getCredential(idToken, null);
+        auth.signInWithCredential(cred).addOnCompleteListener(t -> cb.onResult(t.isSuccessful()));
     }
 
     public void logout() { auth.signOut(); }

@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "936328080408",
+    "firebase_url": "https://medtraveler-f49cc-default-rtdb.firebaseio.com",
     "project_id": "medtraveler-f49cc",
     "storage_bucket": "medtraveler-f49cc.firebasestorage.app"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.davinci.medtraveler"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "936328080408-ttbsc4nr275h30iht1vcr663nq1e7fqm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.davinci.medtraveler",
+            "certificate_hash": "d2f3941ddb8edc9dc3b400d2d983a279fd65437a"
+          }
+        },
+        {
+          "client_id": "936328080408-h7murqd3cjq3an6p34qja86of1g0jruh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBXR4FZ_aIVfsQDWWCmxnxveRNTbW7qPtg"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "936328080408-h7murqd3cjq3an6p34qja86of1g0jruh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
