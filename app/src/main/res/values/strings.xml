@@ -63,6 +63,16 @@
     <string name="db_updated">Base actualizada</string>
     <string name="db_no_changes">Sin novedades o sin conexión</string>
 
+    <!-- Notificación del catálogo -->
+    <string name="notif_channel_name">Actualizaciones del catálogo</string>
+    <string name="notif_channel_desc">Avisos cuando se actualiza la base de medicamentos</string>
+    <string name="notif_updated_title">Base actualizada</string>
+    <string name="notif_date_suffix"> · %1$s</string>
+    <plurals name="notif_countries">
+        <item quantity="one">%d país al día</item>
+        <item quantity="other">%d países al día</item>
+    </plurals>
+
     <!-- Auth -->
     <string name="auth_email_hint">Email</string>
     <string name="auth_password_hint">Contraseña</string>

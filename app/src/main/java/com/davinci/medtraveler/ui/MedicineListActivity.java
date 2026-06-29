@@ -1,12 +1,17 @@
 package com.davinci.medtraveler.ui;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
@@ -40,6 +45,9 @@ public class MedicineListActivity extends BaseActivity {
     private final com.davinci.medtraveler.data.AuthManager auth =
             new com.davinci.medtraveler.data.AuthManager();
     private java.util.Set<String> myMedIds = new java.util.HashSet<>();
+
+    private final ActivityResultLauncher<String> notifPermLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> { });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,16 +126,28 @@ public class MedicineListActivity extends BaseActivity {
     }
 
     @Override protected void onUpdateDbRequested() {
+        ensureNotifPermission();
         showProgress(true);
         android.widget.Toast.makeText(this, R.string.updating_db, android.widget.Toast.LENGTH_SHORT).show();
         updater.refreshCountries(codes, true, (updated, total) -> {
             showProgress(false);
             renderAll();
             refreshDbStatus();
-            android.widget.Toast.makeText(this,
-                    updated > 0 ? R.string.db_updated : R.string.db_no_changes,
-                    android.widget.Toast.LENGTH_SHORT).show();
+            if (updated > 0) {
+                CatalogNotifier.notifyUpdated(this, total, meta.lastUpdatedGlobal());
+            } else {
+                android.widget.Toast.makeText(this, R.string.db_no_changes,
+                        android.widget.Toast.LENGTH_SHORT).show();
+            }
         });
+    }
+
+    private void ensureNotifPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+            notifPermLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+        }
     }
 
     protected void decorateMine(View row, Medicine m) {
