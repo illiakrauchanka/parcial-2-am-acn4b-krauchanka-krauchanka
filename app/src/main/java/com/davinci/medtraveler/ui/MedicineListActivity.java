@@ -67,13 +67,22 @@ public class MedicineListActivity extends BaseActivity {
             if (updated > 0) { renderAll(); refreshDbStatus(); }
         });
 
+        loadMyMeds();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadMyMeds();
+    }
+
+    private void loadMyMeds() {
         String uid = auth.currentUid();
-        if (uid != null) {
-            new com.davinci.medtraveler.data.UserMedsRepo().loadMyMedIds(uid, ids -> {
-                myMedIds = ids;
-                renderAll();
-            });
-        }
+        if (uid == null) return;
+        new com.davinci.medtraveler.data.UserMedsRepo().loadMyMedIds(uid, ids -> {
+            myMedIds = ids;
+            renderAll();
+        });
     }
 
     /** Allows BaseActivity wiring in Phase 9 to override how the content view is set. */
