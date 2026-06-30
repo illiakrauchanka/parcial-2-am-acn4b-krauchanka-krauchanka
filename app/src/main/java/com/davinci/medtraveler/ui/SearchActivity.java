@@ -41,7 +41,10 @@ public class SearchActivity extends BaseActivity {
 
     private void render(String query) {
         container.removeAllViews();
-        for (Medicine m : SearchFilter.filter(all, query)) {
+        List<Medicine> results = SearchFilter.filter(all, query);
+        findViewById(R.id.txt_empty).setVisibility(
+                results.isEmpty() && !all.isEmpty() ? View.VISIBLE : View.GONE);
+        for (Medicine m : results) {
             View row = getLayoutInflater().inflate(R.layout.row_search, container, false);
             ((TextView) row.findViewById(R.id.txt_result))
                     .setText(getString(R.string.search_line, m.name, m.countryName));

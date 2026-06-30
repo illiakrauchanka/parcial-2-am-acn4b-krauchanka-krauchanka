@@ -103,4 +103,5 @@
 
     <!-- Search -->
     <string name="search_line">%1$s — %2$s</string>
+    <string name="search_empty">Sin resultados</string>
 </resources>
