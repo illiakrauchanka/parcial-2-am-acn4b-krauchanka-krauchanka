@@ -20,6 +20,8 @@ Welcome (EULA + elegir país) → Checklist por país → Detalle de medicamento
                                                          └→ guardarlo en "Mis medicamentos"
 Drawer: Inicio · Buscar · Contacto · Cuenta          ▲
                           └→ Login / Registro (email o Google) / Profile
+   Contacto abre el cliente de correo (mailto:); si el dispositivo
+   no tiene uno, muestra un Toast con la dirección de soporte.
 ```
 
 ## Pantallas
@@ -29,7 +31,8 @@ Drawer: Inicio · Buscar · Contacto · Cuenta          ▲
    habilitado sólo si el EULA está aceptado y hay ≥1 país elegido.
 2. **MedicineListActivity** — secciones apiladas por país (bandera + nombre +
    `vN · fecha`). Cada tarjeta muestra nombre, badge de estado coloreado y
-   descripción. Tap → detalle. Drawer + toolbar con `Update DB`. Resalta
+   descripción. Tap → detalle. Drawer + toolbar con `Update DB` y barra de progreso superior.
+   Resalta
    "★ mío" los medicamentos guardados por el usuario logueado.
 3. **MedicineDetailActivity** — cabecera, badge de estado (tap = Toast
    explicativo), descripción, datos clave, extracto de ley expandible, pena,
