@@ -47,7 +47,7 @@ public class SearchActivity extends BaseActivity {
         for (Medicine m : results) {
             View row = getLayoutInflater().inflate(R.layout.row_search, container, false);
             ((TextView) row.findViewById(R.id.txt_result))
-                    .setText(getString(R.string.search_line, m.name, m.countryName));
+                    .setText(getString(R.string.name_value_line, m.name, m.countryName));
             row.setOnClickListener(v -> {
                 Intent i = new Intent(this, MedicineDetailActivity.class);
                 i.putExtra(MedicineListActivity.EXTRA_MED_ID, m.id);

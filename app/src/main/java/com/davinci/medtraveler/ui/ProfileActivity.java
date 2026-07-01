@@ -41,7 +41,7 @@ public class ProfileActivity extends BaseActivity {
             View row = getLayoutInflater().inflate(R.layout.row_my_med, container, false);
             String country = it.countryCode == null ? "" : CountryCatalog.nameOf(it.countryCode);
             ((TextView) row.findViewById(R.id.txt_name)).setText(
-                    getString(R.string.my_med_line, it.name, country));
+                    getString(R.string.name_value_line, it.name, country));
             ((Button) row.findViewById(R.id.btn_remove)).setOnClickListener(v ->
                     repo.removeMyMed(uid, it.medId, ok -> {
                         if (ok) load(uid);

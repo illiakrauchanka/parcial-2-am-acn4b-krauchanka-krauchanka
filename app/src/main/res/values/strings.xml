@@ -91,7 +91,7 @@
     <string name="my_meds_title">Mis medicamentos</string>
     <string name="my_meds_empty">Todavía no guardaste medicamentos.</string>
     <string name="badge_mine">★ mío</string>
-    <string name="my_med_line">%1$s — %2$s</string>
+    <string name="name_value_line">%1$s — %2$s</string>
 
     <!-- Contact -->
     <string name="contact_email">ilja.kravchenko@gmail.com</string>
@@ -103,6 +103,5 @@
     <string name="section_meta_format">v%1$d · %2$s</string>
 
     <!-- Search -->
-    <string name="search_line">%1$s — %2$s</string>
     <string name="search_empty">Sin resultados</string>
 </resources>
