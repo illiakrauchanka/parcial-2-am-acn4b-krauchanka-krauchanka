@@ -17,6 +17,7 @@ import com.davinci.medtraveler.model.CountryCatalog;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -28,13 +29,14 @@ public class WelcomeActivity extends AppCompatActivity {
     private Button addBtn, checkBtn;
     private final List<Spinner> spinners = new ArrayList<>();
     private boolean rebuilding = false;
+    private final ExecutorService seeder = Executors.newSingleThreadExecutor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        Executors.newSingleThreadExecutor().execute(() -> new CatalogRepo(this).seedIfEmpty());
+        seeder.execute(() -> new CatalogRepo(this).seedIfEmpty());
 
         spinnerContainer = findViewById(R.id.spinner_container);
         eula = findViewById(R.id.chk_eula);
@@ -110,6 +112,12 @@ public class WelcomeActivity extends AppCompatActivity {
         addBtn.setVisibility(spinners.size() < MAX_COUNTRIES ? View.VISIBLE : View.GONE);
         rebuilding = false;
         updateCheckEnabled();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        seeder.shutdownNow();
     }
 
     private void updateCheckEnabled() {
