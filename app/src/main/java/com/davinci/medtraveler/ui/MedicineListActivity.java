@@ -85,7 +85,7 @@ public class MedicineListActivity extends BaseActivity {
         });
     }
 
-    /** Allows BaseActivity wiring in Phase 9 to override how the content view is set. */
+    /** Hook for subclasses to bind their own views before {@link #setContentWithChrome(int)}. */
     protected void bindViews() {
         container = findViewById(R.id.sections_container);
     }
@@ -125,7 +125,7 @@ public class MedicineListActivity extends BaseActivity {
         ((TextView) row.findViewById(R.id.txt_medicine_subtitle)).setText(m.description);
         applyBadge(row.findViewById(R.id.txt_status_badge), m.status);
         Glide.with(this).load(m.imageUrl).into((ImageView) row.findViewById(R.id.img_medicine));
-        decorateMine(row, m); // no-op until Task 16 overrides it
+        decorateMine(row, m); // highlights meds saved by the logged-in user
         row.setOnClickListener(v -> {
             Intent i = new Intent(this, MedicineDetailActivity.class);
             i.putExtra(EXTRA_MED_ID, m.id);
