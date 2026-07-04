@@ -1,0 +1,179 @@
+name: ci
+
+# MedTraveler CI
+# - On every push / PR to main or medtraveler-v2: compile, run unit tests, build a debug
+#   APK and upload it as an artifact.
+# - On a tag v* (a release tag): additionally build the release AAB IF the keystore +
+#   Firebase config secrets are configured in the repo, and attach the APK/AAB to an
+#   auto-created GitHub Release so the reviewer can download it.
+#
+# Secrets (all optional — the build degrades gracefully when absent):
+#   FIREBASE_CONFIG   base64 of app/google-services.json (needed only when the repo no
+#                     longer ships google-services.json; until then the committed copy
+#                     works and this secret can stay unset).
+#   RELEASE_KS_B64    base64 of the release .jks keystore.
+#   RELEASE_KS_PW     keystore password.
+#   RELEASE_KEY_ALIAS  key alias inside the keystore.
+#   RELEASE_KEY_PW    key password.
+# If RELEASE_KS_B64 is set, the build uses the release signingConfig; otherwise the
+# release tag still produces a debug-signed APK so there is always a reviewable artifact.
+
+on:
+  push:
+    branches: [main, medtraveler-v2]
+    tags: ['v*']
+  pull_request:
+
+  # Allow running the build workflow manually from the Actions tab.
+  workflow_dispatch:
+
+# Report size / status back to PRs, and let the tag-release job create a release.
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build & unit test
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-read-only: ${{ github.event_name == 'pull_request' }}
+
+      # Restore the Firebase config when the repo no longer ships google-services.json
+      # (it's gitignored once the security hardening lands). Until then this step is a
+      # harmless no-op because the committed file already satisfies the google-services
+      # plugin.
+      - name: Restore google-services.json from secret (optional)
+        env:
+          HAS_FB: ${{ secrets.FIREBASE_CONFIG }}
+        if: ${{ env.HAS_FB != '' }}
+        run: |
+          mkdir -p app
+          echo "${{ secrets.FIREBASE_CONFIG }}" | base64 -d > app/google-services.json
+
+      - name: Build debug APK + unit tests
+        run: ./gradlew :app:assembleDebug :app:testDebugUnitTest --stacktrace
+
+      - name: Upload unit-test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-results
+          path: app/build/test-results/testDebugUnitTest/*.xml
+          if-no-files-found: ignore
+
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: medtraveler-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+
+  release:
+    # Runs only on a version tag push (v1.0.0, v1.1.0, …). Builds the release AAB when a
+    # keystore secret is present, then attaches the debug APK (and the AAB, if any) to a
+    # GitHub Release that is created from this tag — the reviewer can download it without
+    # building locally.
+    name: Release artifact
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Restore google-services.json from secret (optional)
+        env:
+          HAS_FB: ${{ secrets.FIREBASE_CONFIG }}
+        if: ${{ env.HAS_FB != '' }}
+        run: echo "${{ secrets.FIREBASE_CONFIG }}" | base64 -d > app/google-services.json
+
+      # Restore the release keystore + credentials from secrets. When the keystore secret
+      # is absent, this step is skipped and the release AAB is NOT built — the build config
+      # now requires keystore.properties (fail-fast), so we can't accidentally ship a
+      # debug-signed release. The reviewer still gets the debug APK attached by the job
+      # below as a guaranteed review artifact.
+      - name: Restore release keystore from secret (optional)
+        env:
+          HAS_KS: ${{ secrets.RELEASE_KS_B64 }}
+        if: ${{ env.HAS_KS != '' }}
+        run: |
+          echo "${{ secrets.RELEASE_KS_B64 }}" | base64 -d > release.jks
+          cat > keystore.properties <<EOF
+          storeFile=release.jks
+          storePassword=${{ secrets.RELEASE_KS_PW }}
+          keyAlias=${{ secrets.RELEASE_KEY_ALIAS }}
+          keyPassword=${{ secrets.RELEASE_KEY_PW }}
+          EOF
+
+      - name: Build release AAB (only if keystore secret set)
+        env:
+          HAS_KS: ${{ secrets.RELEASE_KS_B64 }}
+        if: ${{ env.HAS_KS != '' }}
+        run: ./gradlew :app:bundleRelease --stacktrace
+
+      - name: Rebuild debug APK so a release always ships a reviewable binary
+        run: ./gradlew :app:assembleDebug --stacktrace
+
+      - name: Create GitHub Release and attach artifacts
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            app/build/outputs/apk/debug/*.apk
+            app/build/outputs/bundle/release/*.aab
+
+  lint:
+    name: Lint (informational)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Restore google-services.json from secret (optional)
+        env:
+          HAS_FB: ${{ secrets.FIREBASE_CONFIG }}
+        if: ${{ env.HAS_FB != '' }}
+        run: echo "${{ secrets.FIREBASE_CONFIG }}" | base64 -d > app/google-services.json
+      - name: Run lint
+        run: ./gradlew :app:lintDebug --stacktrace
+        continue-on-error: true   # lint currently flags a pre-existing WrongConstant in
+                                   # Status.toUpperCase(); kept informational until that
+                                   # issue is resolved so CI never blocks the build.
+      - name: Upload lint report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lint-report
+          path: app/build/reports/lint-results-debug.*
+          if-no-files-found: ignore
