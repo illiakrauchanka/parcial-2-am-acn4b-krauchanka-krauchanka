@@ -12,6 +12,9 @@
 
 # Package Files #
 *.jar
+# Gradle wrapper jar MUST be committed so CI can run ./gradlew without a local
+# Gradle install. Exempt it from the *.jar rule above.
+!gradle/wrapper/gradle-wrapper.jar
 *.war
 *.nar
 *.ear
