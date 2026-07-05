@@ -74,7 +74,14 @@ public class MedicineDetailActivity extends AppCompatActivity {
         ImageView imgMedicine = findViewById(R.id.img_medicine);
 
         txtCountry.setText(medicine.countryName);
-        txtMedicineName.setText(medicine.name);
+        // Show the localized name, with the Latin INN in parentheses when it is present
+        // and different — so the substance is identifiable across UI languages.
+        String shown = medicine.displayName();
+        if (medicine.nameLatin != null && !medicine.nameLatin.isEmpty()
+                && !medicine.nameLatin.equals(medicine.name)) {
+            shown = shown + " (" + medicine.nameLatin + ")";
+        }
+        txtMedicineName.setText(shown);
         txtActiveSubstance.setText(
                 getString(R.string.fact_label_substance) + ": " + medicine.activeSubstance);
         Glide.with(this).load(medicine.imageUrl).into(imgMedicine);

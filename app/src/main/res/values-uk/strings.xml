@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ukrainian (uk) locale strings. Selected automatically when the device language is
+     Ukrainian. The default values/strings.xml (Spanish) acts as the fallback for any
+     unmapped locale. -->
+<resources>
+    <string name="app_name" translatable="false">MedTraveler</string>
+
+    <!-- Detail screen UI labels -->
+    <string name="detail_back">Назад</string>
+    <string name="detail_section_description">Опис</string>
+    <string name="detail_section_key_facts">Ключові дані</string>
+    <string name="detail_section_law">Уривок із закону</string>
+    <string name="detail_section_penalty">Покарання</string>
+    <string name="detail_open_source">Відкрити офіційне джерело</string>
+
+    <!-- Status badges -->
+    <string name="status_allowed">ДОЗВОЛЕНО</string>
+    <string name="status_restricted">ОБМЕЖЕНО</string>
+    <string name="status_penal">КРИМІНАЛЬНО</string>
+
+    <!-- Status full descriptions (for toast) -->
+    <string name="status_desc_allowed">Дозволено ввозити в країну без особливих обмежень.</string>
+    <string name="status_desc_restricted">Дозволено за archived рецептом та/або в обмеженій кількості.</string>
+    <string name="status_desc_penal">Володіння без дозволу передбачає кримінальну відповідальність.</string>
+
+    <!-- Key facts row labels -->
+    <string name="fact_label_substance">Діюча речовина</string>
+    <string name="fact_label_group">Група</string>
+    <string name="fact_label_prescription">Рецепт</string>
+    <string name="fact_label_brand">Торгова назва</string>
+
+    <!-- Medicine list -->
+    <string name="medicine_search_hint">Пошук за назвою або речовиною</string>
+
+    <!-- Detail extras -->
+    <string name="detail_added_fail">Не вдалося додати</string>
+    <string name="detail_load_error">Не вдалося завантажити ліки</string>
+    <string name="trip_remove_fail">Не вдалося видалити</string>
+
+    <!-- Accessibility -->
+    <string name="cd_flag">Прапор країни</string>
+    <string name="cd_medicine_image">Зображення ліків</string>
+
+    <!-- EULA / Welcome v2 -->
+    <string name="eula_title">Перед початком</string>
+    <string name="eula_body">Інформація в цьому застосунку базується на відкритих даних і не завжди відображає чинні закони. Щоб бути впевненим, радимо звернутися до офіційних органів кожної країни та перевірити їхній список заборонених до ввезення речовин.</string>
+    <string name="eula_checkbox">Я прочитав і розумію застереження</string>
+    <string name="welcome_question">До яких країн ви плануєте подорожувати?</string>
+    <string name="welcome_add_country">+ Додати іншу країну</string>
+    <string name="welcome_remove_country">Видалити</string>
+    <string name="welcome_check">CHECK my meds</string>
+
+    <!-- Drawer / DB status -->
+    <string name="menu_title">Меню</string>
+    <string name="menu_home">Головна</string>
+    <string name="menu_search">Пошук</string>
+    <string name="menu_contact">Контакти</string>
+    <string name="menu_update_db">Оновити базу</string>
+    <string name="menu_account">Обліковий запис</string>
+    <string name="drawer_open">Відкрити меню</string>
+    <string name="drawer_close">Закрити меню</string>
+    <string name="db_status_format">Базу оновлено: %1$s</string>
+    <string name="db_status_never">Базу ще не оновлено</string>
+    <string name="updating_db">Оновлення бази…</string>
+    <string name="db_updated">Базу оновлено</string>
+    <string name="db_no_changes">Без оновлень або без з\'єднання</string>
+
+    <!-- Catalog notification -->
+    <string name="notif_channel_name">Оновлення каталогу</string>
+    <string name="notif_channel_desc">Сповіщення під час оновлення бази ліків</string>
+    <string name="notif_updated_title">Базу оновлено</string>
+    <string name="notif_date_suffix"> · %1$s</string>
+    <plurals name="notif_countries">
+        <item quantity="one">%d країна актуальна</item>
+        <item quantity="few">%d країни актуальні</item>
+        <item quantity="many">%d країн актуальні</item>
+        <item quantity="other">%d країн актуальні</item>
+    </plurals>
+
+    <!-- Auth -->
+    <string name="auth_email_hint">Ел. пошта</string>
+    <string name="auth_password_hint">Пароль</string>
+    <string name="auth_login">Увійти</string>
+    <string name="auth_register">Зареєструватися</string>
+    <string name="auth_logout">Вийти</string>
+    <string name="auth_error">Не вдалося виконати. Перевірте дані та з\'єднання.</string>
+    <string name="auth_logged_in">Вхід виконано</string>
+    <string name="auth_err_email_required">Введіть свою ел. пошту.</string>
+    <string name="auth_err_password_short">Пароль має містити щонайменше %1$d символів.</string>
+    <string name="auth_google">Продовжити з Google</string>
+
+    <!-- My meds / detail -->
+    <string name="detail_take_med">Я приймаю ці ліки</string>
+    <string name="detail_taken_ok">Збережено у ваших ліках</string>
+    <string name="my_meds_title">Мої ліки</string>
+    <string name="my_meds_empty">Ви ще не зберегли жодних ліків.</string>
+    <string name="badge_mine">★ моє</string>
+    <string name="name_value_line">%1$s — %2$s</string>
+
+    <!-- Contact -->
+    <string name="contact_email" translatable="false">ilja.kravchenko@gmail.com</string>
+    <string name="contact_subject" translatable="false">Запит MedTraveler</string>
+    <string name="contact_no_app">Не встановлено застосунок пошти</string>
+    <string name="contact_no_app_with_address">Немає застосунку пошти. Пишіть нам на %1$s</string>
+
+    <!-- Section header -->
+    <string name="section_meta_format">в%1$d · %2$s</string>
+
+    <!-- Search -->
+    <string name="search_empty">Без результатів</string>
+</resources>

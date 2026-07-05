@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?><!--
    Data extraction (backup / device-transfer) rules.
-   See https://developer.android.com/about/versions/12/backup-restore#xml-changes
-   for details. No custom include/exclude rules are needed: the default
-   backup behaviour is sufficient for this app.
+   Auto backup is DISABLED in AndroidManifest (allowBackup="false"), so no data
+   is backed up to Google or transferred to a new device. These rules are kept
+   intentionally empty for clarity. See:
+   https://developer.android.com/about/versions/12/backup-restore#xml-changes
 -->
 <data-extraction-rules>
     <cloud-backup />
+    <device-transfer />
 </data-extraction-rules>

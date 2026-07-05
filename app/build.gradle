@@ -5,14 +5,19 @@ plugins {
     alias(libs.plugins.google.services)
 }
 
-// Release keystore credentials live outside the repo (parcial2-planning/keystore.properties)
-// and are never committed. When absent, the release variant falls back to the debug
-// signing key so the build still works locally for testing.
+// Release keystore credentials live outside the repo (keystore.properties at the
+// project root) and are never committed. The release variant FAILS the build if they
+// are missing — silently falling back to the debug signing key would upload a build
+// that Play Console / Firebase Auth (Google Sign-In) would reject anyway, and risks
+// shipping a debug-signed artefact. To test locally, copy keystore.properties.example
+// to keystore.properties and fill in your release .jks details.
 File keystoreProps = rootProject.file('keystore.properties')
 Properties ks = new Properties()
 if (keystoreProps.exists()) {
     ks.load(new FileInputStream(keystoreProps))
 }
+boolean hasReleaseKeystore = ks.containsKey('storeFile') && ks.containsKey('storePassword')
+        && ks.containsKey('keyAlias') && ks.containsKey('keyPassword')
 
 android {
     namespace 'com.davinci.medtraveler'
@@ -34,7 +39,7 @@ android {
 
     signingConfigs {
         release {
-            if (ks.containsKey('storeFile')) {
+            if (hasReleaseKeystore) {
                 storeFile file(ks['storeFile'])
                 storePassword ks['storePassword']
                 keyAlias ks['keyAlias']
@@ -45,14 +50,34 @@ android {
 
     buildTypes {
         release {
-            // Keep R8 off for the first Play submission to avoid stripped-symbol crashes;
-            // enable later once keep rules are validated. See proguard-rules.pro.
-            minifyEnabled false
-            shrinkResources false
+            // R8 shrinking + obfuscation on for the Play release (keep rules in
+            // proguard-rules.pro already cover Room models, Glide, Firebase, OkHttp).
+            // Before this was OFF to avoid stripped-symbol crashes; the keep rules
+            // have since been validated, so enable it for a smaller, obfuscated AAB.
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            if (ks.containsKey('storeFile')) {
+
+            // No silent debug fallback: a release bundle MUST be signed with the
+            // release keystore, otherwise Play Console and Firebase Auth reject it.
+            // We only fail the build when a release task is actually requested —
+            // everyday debug/dev tasks must keep working without a release keystore.
+            if (hasReleaseKeystore) {
                 signingConfig signingConfigs.release
+            } else {
+                boolean wantsRelease = gradle.startParameter.taskNames.any {
+                    it.toLowerCase().contains('release')
+                }
+                if (wantsRelease) {
+                    throw new GradleException(
+                        'keystore.properties not found or incomplete. Copy keystore.properties.example ' +
+                        'to keystore.properties and fill in your release .jks details before bundleRelease.')
+                }
             }
+        }
+        debug {
+            // BuildType for local/CI testing without a release keystore — uses the
+            // standard debug signing key (default Android behaviour).
         }
     }
     compileOptions {
@@ -80,4 +105,9 @@ dependencies {
     testImplementation libs.org.json
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
+    androidTestImplementation libs.androidx.room.testing
+    androidTestImplementation libs.androidx.test.core
+    androidTestImplementation libs.androidx.test.runner
+    androidTestImplementation libs.androidx.test.rules
+    androidTestImplementation libs.mockwebserver
 }

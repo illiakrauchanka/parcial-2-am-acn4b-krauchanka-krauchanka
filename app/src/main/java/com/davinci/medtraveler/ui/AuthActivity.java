@@ -19,7 +19,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 
 public class AuthActivity extends AppCompatActivity {
-    private static final int MIN_PASSWORD = 6;
+    private static final int MIN_PASSWORD = 8;
 
     private final AuthManager auth = new AuthManager();
     private GoogleSignInClient googleClient;

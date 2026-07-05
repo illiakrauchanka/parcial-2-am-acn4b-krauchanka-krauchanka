@@ -56,4 +56,15 @@ public class CatalogMeta {
 
     public boolean isSeeded() { return prefs.getBoolean("seeded", false); }
     public void markSeeded() { prefs.edit().putBoolean("seeded", true).apply(); }
+
+    /** Language the catalog baked into Room was last seeded/fetched for (es/en/uk/be/zh).
+     *  CatalogRepo re-seeds from the bundled asset when this no longer matches the UI
+     *  language, so localized names stay in sync with the user's chosen locale. */
+    public String getSeededLang() { return prefs.getString("seededLang", ""); }
+    public void setSeededLang(String lang) {
+        prefs.edit().putString("seededLang", lang == null ? "" : lang).apply();
+    }
+    public void markSeeded(String lang) {
+        prefs.edit().putBoolean("seeded", true).putString("seededLang", lang == null ? "" : lang).apply();
+    }
 }

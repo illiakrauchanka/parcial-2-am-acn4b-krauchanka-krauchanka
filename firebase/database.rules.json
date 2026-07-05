@@ -1,0 +1,27 @@
+{
+  "rules": {
+    "//comment": "MedTraveler Realtime Database security rules. The /meds node holds the PUBLIC catalog (read:true, no auth needed — CatalogUpdater fetches it unauthenticated). Anyone can read it. NO writes from the client: the catalog is updated only server-side / via the Firebase Console. /users (if ever used in RTDB) is private to the owner.",
+
+    "meds": {
+      ".read": true,
+      ".write": false
+    },
+
+    "users": {
+      "$uid": {
+        ".read":  "auth != null && auth.uid == $uid",
+        ".write": "auth != null && auth.uid == $uid"
+      }
+    },
+
+    "sessions": {
+      ".read":  "auth != null && auth.uid == $sessionUid",
+      ".write": "auth != null && auth.uid == $sessionUid"
+    },
+
+    "$other": {
+      ".read":  false,
+      ".write": false
+    }
+  }
+}
