@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?><!--
    Backup rules (legacy full-backup for API < 31).
-   See https://developer.android.com/guide/topics/data/autobackup for details.
-   No custom include/exclude rules are needed: the default backup behaviour is
-   sufficient for this app.
+   Auto backup is DISABLED in AndroidManifest (allowBackup="false") to prevent
+   Firebase Auth state and per-user Firestore data migrating to another device
+   or being restored in a way that leaks the signed-in account. These rules are
+   therefore intentionally empty. See:
+   https://developer.android.com/guide/topics/data/autobackup
 -->
 <full-backup-content />

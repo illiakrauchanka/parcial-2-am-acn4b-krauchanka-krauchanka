@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Simplified Chinese (zh) locale strings. Selected automatically when the device
+     language is Chinese (Simplified). The default values/strings.xml (Spanish) acts as
+     the fallback for any unmapped locale. -->
+<resources>
+    <string name="app_name" translatable="false">MedTraveler</string>
+
+    <!-- Detail screen UI labels -->
+    <string name="detail_back">返回</string>
+    <string name="detail_section_description">说明</string>
+    <string name="detail_section_key_facts">关键信息</string>
+    <string name="detail_section_law">法律摘录</string>
+    <string name="detail_section_penalty">处罚</string>
+    <string name="detail_open_source">打开官方来源</string>
+
+    <!-- Status badges -->
+    <string name="status_allowed">允许</string>
+    <string name="status_restricted">受限制</string>
+    <string name="status_penal">刑事</string>
+
+    <!-- Status full descriptions (for toast) -->
+    <string name="status_desc_allowed">可携带入境,无特殊限制。</string>
+    <string name="status_desc_restricted">凭存档处方和/或限量携带入境。</string>
+    <string name="status_desc_penal">未经携带可构成刑事责任。</string>
+
+    <!-- Key facts row labels -->
+    <string name="fact_label_substance">活性成分</string>
+    <string name="fact_label_group">类别</string>
+    <string name="fact_label_prescription">处方</string>
+    <string name="fact_label_brand">商品名</string>
+
+    <!-- Medicine list -->
+    <string name="medicine_search_hint">按名称或成分搜索</string>
+
+    <!-- Detail extras -->
+    <string name="detail_added_fail">添加失败</string>
+    <string name="detail_load_error">无法加载该药品</string>
+    <string name="trip_remove_fail">移除失败</string>
+
+    <!-- Accessibility -->
+    <string name="cd_flag">国旗</string>
+    <string name="cd_medicine_image">药品图片</string>
+
+    <!-- EULA / Welcome v2 -->
+    <string name="eula_title">开始之前</string>
+    <string name="eula_body">本应用的信息基于公开数据,可能未反映现行法律。为稳妥起见,建议您查阅各国官方机构并查看其禁止入境物质清单。</string>
+    <string name="eula_checkbox">我已阅读并理解免责声明</string>
+    <string name="welcome_question">您计划前往哪些国家?</string>
+    <string name="welcome_add_country">+ 添加其他国家</string>
+    <string name="welcome_remove_country">移除</string>
+    <string name="welcome_check">CHECK my meds</string>
+
+    <!-- Drawer / DB status -->
+    <string name="menu_title">菜单</string>
+    <string name="menu_home">首页</string>
+    <string name="menu_search">搜索</string>
+    <string name="menu_contact">联系</string>
+    <string name="menu_update_db">更新数据库</string>
+    <string name="menu_account">账户</string>
+    <string name="drawer_open">打开菜单</string>
+    <string name="drawer_close">关闭菜单</string>
+    <string name="db_status_format">数据库已更新: %1$s</string>
+    <string name="db_status_never">数据库尚未更新</string>
+    <string name="updating_db">正在更新数据库…</string>
+    <string name="db_updated">数据库已更新</string>
+    <string name="db_no_changes">无更新或无连接</string>
+
+    <!-- Catalog notification -->
+    <string name="notif_channel_name">目录更新</string>
+    <string name="notif_channel_desc">药品数据库更新时通知</string>
+    <string name="notif_updated_title">数据库已更新</string>
+    <string name="notif_date_suffix"> · %1$s</string>
+    <plurals name="notif_countries">
+        <item quantity="other">%d 个国家已为最新</item>
+    </plurals>
+
+    <!-- Auth -->
+    <string name="auth_email_hint">电子邮件</string>
+    <string name="auth_password_hint">密码</string>
+    <string name="auth_login">登录</string>
+    <string name="auth_register">注册</string>
+    <string name="auth_logout">退出登录</string>
+    <string name="auth_error">无法完成。请检查信息与网络连接。</string>
+    <string name="auth_logged_in">已登录</string>
+    <string name="auth_err_email_required">请输入您的电子邮件。</string>
+    <string name="auth_err_password_short">密码至少需要 %1$d 个字符。</string>
+    <string name="auth_google">使用 Google 继续</string>
+
+    <!-- My meds / detail -->
+    <string name="detail_take_med">我服用此药品</string>
+    <string name="detail_taken_ok">已保存到您的药品</string>
+    <string name="my_meds_title">我的药品</string>
+    <string name="my_meds_empty">您尚未保存任何药品。</string>
+    <string name="badge_mine">★ 我的</string>
+    <string name="name_value_line">%1$s — %2$s</string>
+
+    <!-- Contact -->
+    <string name="contact_email" translatable="false">ilja.kravchenko@gmail.com</string>
+    <string name="contact_subject" translatable="false">MedTraveler 咨询</string>
+    <string name="contact_no_app">未安装邮件应用</string>
+    <string name="contact_no_app_with_address">没有邮件应用。请写信至 %1$s</string>
+
+    <!-- Section header -->
+    <string name="section_meta_format">v%1$d · %2$s</string>
+
+    <!-- Search -->
+    <string name="search_empty">无结果</string>
+</resources>

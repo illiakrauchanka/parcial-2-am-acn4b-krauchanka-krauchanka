@@ -13,8 +13,11 @@
         </intent>
     </queries>
 
+    <!-- Auto backup is disabled: the app holds Firebase Auth state and per-user
+         Firestore data; backed-up auth state must not migrate to another device
+         or be restored in a way that leaks the signed-in account. -->
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"

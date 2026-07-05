@@ -21,6 +21,7 @@ public final class CountryCatalog {
 
     public static final List<Country> ALL = Collections.unmodifiableList(Arrays.asList(
             new Country("AR", "Argentina", R.drawable.flag_argentina),
+            new Country("BR", "Brasil", R.drawable.flag_brasil),
             new Country("JP", "Japón", R.drawable.flag_japan),
             new Country("AE", "Emiratos Árabes Unidos", R.drawable.flag_uae),
             new Country("SG", "Singapur", R.drawable.flag_singapore)

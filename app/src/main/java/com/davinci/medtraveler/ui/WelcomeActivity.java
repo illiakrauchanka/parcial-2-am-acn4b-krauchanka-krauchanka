@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.davinci.medtraveler.R;
 import com.davinci.medtraveler.data.CatalogRepo;
 import com.davinci.medtraveler.model.CountryCatalog;
+import com.davinci.medtraveler.util.AppLocale;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,9 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        seeder.execute(() -> new CatalogRepo(this).seedIfEmpty());
+        // Seed in the active UI language so localized names match the user's locale;
+        // CatalogRepo re-seeds automatically when the language later changes.
+        seeder.execute(() -> new CatalogRepo(this).seedIfEmpty(AppLocale.current(this)));
 
         spinnerContainer = findViewById(R.id.spinner_container);
         eula = findViewById(R.id.chk_eula);

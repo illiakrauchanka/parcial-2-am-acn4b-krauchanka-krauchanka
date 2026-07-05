@@ -13,7 +13,7 @@ import java.util.List;
 public class SearchFilterTest {
 
     private Medicine med(String name, String substance) {
-        return new Medicine("id", name, "AR", "Argentina", Status.PENAL,
+        return new Medicine("id", name, "Latrum", "AR", "Argentina", Status.PENAL,
                 substance, "g", "p", "b", "d", "l", "pen", "u", "img");
     }
 

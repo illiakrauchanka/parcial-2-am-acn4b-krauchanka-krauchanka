@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- App-level (brand name, never translated) -->
+    <!-- App-level (kept in the default values/ too; this mirror covers the es locale
+         explicitly so the language switcher launched with Locale("es") is consistent.) -->
     <string name="app_name" translatable="false">MedTraveler</string>
 
     <!-- Detail screen UI labels -->
@@ -93,7 +94,7 @@
     <string name="badge_mine">★ mío</string>
     <string name="name_value_line">%1$s — %2$s</string>
 
-    <!-- Contact (email/subject are not translated) -->
+    <!-- Contact -->
     <string name="contact_email" translatable="false">ilja.kravchenko@gmail.com</string>
     <string name="contact_subject" translatable="false">Consulta MedTraveler</string>
     <string name="contact_no_app">No hay una app de correo instalada</string>

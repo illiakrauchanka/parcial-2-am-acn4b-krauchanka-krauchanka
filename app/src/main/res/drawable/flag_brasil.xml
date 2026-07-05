@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="20dp"
+    android:viewportWidth="32"
+    android:viewportHeight="20">
+
+    <!-- Green field -->
+    <path
+        android:fillColor="#009C3B"
+        android:pathData="M0,0 H32 V20 H0 Z" />
+
+    <!-- Yellow rhombus -->
+    <path
+        android:fillColor="#FFDF00"
+        android:pathData="M16,2 L30,10 L16,18 L2,10 Z" />
+
+    <!-- Blue circle -->
+    <path
+        android:fillColor="#002776"
+        android:pathData="M16,10 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 Z" />
+</vector>

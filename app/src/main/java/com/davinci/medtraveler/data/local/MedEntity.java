@@ -8,7 +8,15 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "meds")
 public class MedEntity {
     @PrimaryKey @NonNull public String id = "";
+    /** Localized medicine name in the language the catalog was last fetched/seeded for
+     *  (es / en / uk / be / zh). Chosen from {@code names[lang]} by CatalogJson. */
     public String name;
+
+    /** International Nonproprietary Name (INN) — Latin, language-independent. Always
+     *  available so the user can identify the substance even when the UI language and
+     *  the catalog language get out of sync. */
+    public String nameLatin;
+
     public String countryCode;
     public String status;          // "RESTRICTED" | "PENAL"
     public String activeSubstance;

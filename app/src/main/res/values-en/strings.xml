@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- English (en) locale strings. Selected automatically when the device language is
+     English. The default values/strings.xml still holds the Spanish strings as fallback
+     so a device set to an unmapped locale keeps the original app language. -->
+<resources>
+    <string name="app_name" translatable="false">MedTraveler</string>
+
+    <!-- Detail screen UI labels -->
+    <string name="detail_back">Back</string>
+    <string name="detail_section_description">Description</string>
+    <string name="detail_section_key_facts">Key facts</string>
+    <string name="detail_section_law">Law excerpt</string>
+    <string name="detail_section_penalty">Penalty</string>
+    <string name="detail_open_source">Open official source</string>
+
+    <!-- Status badges -->
+    <string name="status_allowed">ALLOWED</string>
+    <string name="status_restricted">RESTRICTED</string>
+    <string name="status_penal">CRIMINAL</string>
+
+    <!-- Status full descriptions (for toast) -->
+    <string name="status_desc_allowed">May be brought into the country with no special restrictions.</string>
+    <string name="status_desc_restricted">Allowed with a filed prescription and/or a limited quantity.</string>
+    <string name="status_desc_penal">Carrying it without authorization implies criminal liability.</string>
+
+    <!-- Key facts row labels -->
+    <string name="fact_label_substance">Active substance</string>
+    <string name="fact_label_group">Group</string>
+    <string name="fact_label_prescription">Prescription</string>
+    <string name="fact_label_brand">Brand name</string>
+
+    <!-- Medicine list -->
+    <string name="medicine_search_hint">Search by name or substance</string>
+
+    <!-- Detail extras -->
+    <string name="detail_added_fail">Could not add</string>
+    <string name="detail_load_error">Could not load the medicine</string>
+    <string name="trip_remove_fail">Could not remove</string>
+
+    <!-- Accessibility -->
+    <string name="cd_flag">Country flag</string>
+    <string name="cd_medicine_image">Medicine image</string>
+
+    <!-- EULA / Welcome v2 -->
+    <string name="eula_title">Before you start</string>
+    <string name="eula_body">The information in this app is based on public data and does not always reflect current laws. To be sure, we recommend consulting the official bodies of each country and checking their list of substances banned on entry.</string>
+    <string name="eula_checkbox">I have read and understand the disclaimer</string>
+    <string name="welcome_question">Which countries are you planning to travel to?</string>
+    <string name="welcome_add_country">+ Add another country</string>
+    <string name="welcome_remove_country">Remove</string>
+    <string name="welcome_check">CHECK my meds</string>
+
+    <!-- Drawer / DB status -->
+    <string name="menu_title">Menu</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_contact">Contact</string>
+    <string name="menu_update_db">Update database</string>
+    <string name="menu_account">Account</string>
+    <string name="drawer_open">Open menu</string>
+    <string name="drawer_close">Close menu</string>
+    <string name="db_status_format">Database updated: %1$s</string>
+    <string name="db_status_never">Database not updated yet</string>
+    <string name="updating_db">Updating database…</string>
+    <string name="db_updated">Database updated</string>
+    <string name="db_no_changes">No updates or no connection</string>
+
+    <!-- Catalog notification -->
+    <string name="notif_channel_name">Catalog updates</string>
+    <string name="notif_channel_desc">Notifies when the medicine database is updated</string>
+    <string name="notif_updated_title">Database updated</string>
+    <string name="notif_date_suffix"> · %1$s</string>
+    <plurals name="notif_countries">
+        <item quantity="one">%d country up to date</item>
+        <item quantity="other">%d countries up to date</item>
+    </plurals>
+
+    <!-- Auth -->
+    <string name="auth_email_hint">Email</string>
+    <string name="auth_password_hint">Password</string>
+    <string name="auth_login">Sign in</string>
+    <string name="auth_register">Register</string>
+    <string name="auth_logout">Sign out</string>
+    <string name="auth_error">Could not complete. Check your details and connection.</string>
+    <string name="auth_logged_in">Signed in</string>
+    <string name="auth_err_email_required">Enter your email.</string>
+    <string name="auth_err_password_short">The password must be at least %1$d characters long.</string>
+    <string name="auth_google">Continue with Google</string>
+
+    <!-- My meds / detail -->
+    <string name="detail_take_med">I take this medicine</string>
+    <string name="detail_taken_ok">Saved to your medicines</string>
+    <string name="my_meds_title">My medicines</string>
+    <string name="my_meds_empty">You haven\'t saved any medicines yet.</string>
+    <string name="badge_mine">★ mine</string>
+    <string name="name_value_line">%1$s — %2$s</string>
+
+    <!-- Contact -->
+    <string name="contact_email" translatable="false">ilja.kravchenko@gmail.com</string>
+    <string name="contact_subject" translatable="false">MedTraveler enquiry</string>
+    <string name="contact_no_app">No email app installed</string>
+    <string name="contact_no_app_with_address">No email app. Write to us at %1$s</string>
+
+    <!-- Section header -->
+    <string name="section_meta_format">v%1$d · %2$s</string>
+
+    <!-- Search -->
+    <string name="search_empty">No results</string>
+</resources>

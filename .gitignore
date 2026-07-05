@@ -45,5 +45,16 @@ parcial_01.pdf
 
 # Release signing keys and signing config (never commit)
 keystore.properties
+# keystore.properties.example IS committable (template only)
 *.keystore
 *.jks
+/release.jks
+
+# Firebase project config (contains API key, OAuth client IDs, certificate
+# hashes). Each developer regenerates it from the Firebase Console locally.
+app/google-services.json
+app/release/google-services.json
+
+# Build artefacts and stray local dirs (never commit)
+/dist/
+/campus/

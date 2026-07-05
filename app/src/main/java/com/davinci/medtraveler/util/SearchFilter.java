@@ -10,6 +10,7 @@ public final class SearchFilter {
     private SearchFilter() {}
 
     public static List<Medicine> filter(List<Medicine> source, String query) {
+        if (source == null) return new ArrayList<>();          // defensive: never NPE on a null list
         if (query == null || query.trim().isEmpty()) return new ArrayList<>(source);
         String q = query.trim().toLowerCase(Locale.ROOT);
         List<Medicine> out = new ArrayList<>();
