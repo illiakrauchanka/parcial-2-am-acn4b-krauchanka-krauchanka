@@ -18,9 +18,15 @@ name: ci
 # If RELEASE_KS_B64 is set, the build uses the release signingConfig; otherwise the
 # release tag still produces a debug-signed APK so there is always a reviewable artifact.
 
+# Triggers:
+#   - any branch push (so feature / wip / release branches get built and unit-tested)
+#   - any tag push that matches v* (a release tag — also fires the release job)
+#   - any pull request (runs the build job against the PR head)
+# We intentionally don't restrict `push.branches` to a fixed list: that previously
+# caused wip/hardening-l10n and other feature branches to silently never build.
 on:
   push:
-    branches: [main, medtraveler-v2]
+    branches-ignore: [gh-pages]
     tags: ['v*']
   pull_request:
 
