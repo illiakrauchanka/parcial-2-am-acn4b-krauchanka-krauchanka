@@ -86,6 +86,16 @@
     <string name="auth_err_password_short">密码至少需要 %1$d 个字符。</string>
     <string name="auth_google">使用 Google 继续</string>
 
+    <!-- Account deletion (required by Google Play policy since 2022) -->
+    <string name="account_delete">删除账户</string>
+    <string name="account_delete_confirm_title">删除您的账户?</string>
+    <string name="account_delete_confirm_body">您的账户和已保存的药品将被永久删除。此操作无法撤销。</string>
+    <string name="account_delete_yes">删除</string>
+    <string name="account_delete_no">取消</string>
+    <string name="account_deleted">账户已删除</string>
+    <string name="account_delete_reauth">请重新登录后再删除账户。</string>
+    <string name="account_delete_failed">无法删除账户,请重试。</string>
+
     <!-- My meds / detail -->
     <string name="detail_take_med">我服用此药品</string>
     <string name="detail_taken_ok">已保存到您的药品</string>

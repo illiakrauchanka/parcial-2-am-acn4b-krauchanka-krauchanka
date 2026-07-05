@@ -89,6 +89,16 @@
     <string name="auth_err_password_short">Пароль павінен змяшчаць прынамсі %1$d знакаў.</string>
     <string name="auth_google">Прадоўжыць з Google</string>
 
+    <!-- Account deletion (required by Google Play policy since 2022) -->
+    <string name="account_delete">Выдаліць уліковы запіс</string>
+    <string name="account_delete_confirm_title">Выдаліць уліковы запіс?</string>
+    <string name="account_delete_confirm_body">Ваш уліковы запіс і захаваныя лекі будуць назаўсёды выдалены. Гэтае дзеянне нельга адмяніць.</string>
+    <string name="account_delete_yes">Выдаліць</string>
+    <string name="account_delete_no">Адмена</string>
+    <string name="account_deleted">Уліковы запіс выдалены</string>
+    <string name="account_delete_reauth">Увайдзіце зноў, каб можна было выдаліць уліковы запіс.</string>
+    <string name="account_delete_failed">Не атрымалася выдаліць уліковы запіс. Паспрабуйце яшчэ раз.</string>
+
     <!-- My meds / detail -->
     <string name="detail_take_med">Я прымаю гэтыя лекі</string>
     <string name="detail_taken_ok">Захавана ў вашых леках</string>

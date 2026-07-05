@@ -86,6 +86,16 @@
     <string name="auth_err_password_short">La contraseña debe tener al menos %1$d caracteres.</string>
     <string name="auth_google">Continuar con Google</string>
 
+    <!-- Account deletion (required by Google Play policy since 2022) -->
+    <string name="account_delete">Eliminar cuenta</string>
+    <string name="account_delete_confirm_title">¿Eliminar tu cuenta?</string>
+    <string name="account_delete_confirm_body">Se borrarán tu cuenta y tus medicamentos guardados. Esta acción no se puede deshacer.</string>
+    <string name="account_delete_yes">Eliminar</string>
+    <string name="account_delete_no">Cancelar</string>
+    <string name="account_deleted">Cuenta eliminada</string>
+    <string name="account_delete_reauth">Iniciá sesión de nuevo para poder borrar la cuenta.</string>
+    <string name="account_delete_failed">No se pudo eliminar la cuenta. Probá de nuevo.</string>
+
     <!-- My meds / detail -->
     <string name="detail_take_med">Tomo este medicamento</string>
     <string name="detail_taken_ok">Guardado en tus medicamentos</string>

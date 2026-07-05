@@ -3,6 +3,7 @@ package com.davinci.medtraveler.data;
 import com.davinci.medtraveler.model.Medicine;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,5 +63,31 @@ public class UserMedsRepo {
                     cb.onResult(out);
                 })
                 .addOnFailureListener(e -> cb.onResult(new ArrayList<>()));
+    }
+
+    /** Deletes all of the user's Firestore data in a single WriteBatch so the operation
+     *  is atomic per policy: the {@code myMeds} subcollection (Firestore does NOT cascade
+     *  subcollection deletes, so we collect and delete every doc) and the parent
+     *  {@code users/{uid}} document itself. Intended to be called as part of the Play
+     *  policy accounts-deletion flow, BEFORE {@code AuthManager.deleteAccount} wipes the
+     *  Firebase Auth user (after Auth deletion the uid can no longer be trusted under the
+     *  security rules). No-op (reports success) when there is simply nothing to delete. */
+    public void deleteUserData(String uid, DoneCallback cb) {
+        db.collection("users").document(uid).collection("myMeds").get()
+                .addOnSuccessListener(snap -> {
+                    WriteBatch batch = db.batch();
+                    // delete every saved med in the subcollection
+                    for (DocumentSnapshot d : snap.getDocuments()) batch.delete(d.getReference());
+                    // delete the parent user document last, inside the same atomic batch
+                    batch.delete(db.collection("users").document(uid));
+                    batch.commit()
+                            .addOnSuccessListener(x -> cb.onDone(true))
+                            .addOnFailureListener(e -> cb.onDone(false));
+                })
+                // If the subcollection read fails (e.g., it never existed), still attempt to
+                // delete the parent doc so we don't leak the user document.
+                .addOnFailureListener(e -> db.collection("users").document(uid).delete()
+                        .addOnSuccessListener(x -> cb.onDone(true))
+                        .addOnFailureListener(e2 -> cb.onDone(false)));
     }
 }
