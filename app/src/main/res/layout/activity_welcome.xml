@@ -4,57 +4,90 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/surface">
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/padding_screen">
+        android:layout_height="wrap_content">
 
-        <TextView android:id="@+id/txt_eula_title"
-            android:layout_width="0dp" android:layout_height="wrap_content"
-            android:text="@string/eula_title" android:textSize="@dimen/text_size_title"
-            android:textStyle="bold" android:textColor="@color/text_primary"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
+        <ImageView
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:layout_gravity="bottom|end"
+            android:src="@drawable/ornament_watermark"
+            android:importantForAccessibility="no"/>
 
-        <TextView android:id="@+id/txt_eula_body"
-            android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_medium" android:text="@string/eula_body"
-            android:textColor="@color/text_secondary"
-            app:layout_constraintTop_toBottomOf="@id/txt_eula_title"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_screen">
 
-        <CheckBox android:id="@+id/chk_eula"
-            android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_medium" android:text="@string/eula_checkbox"
-            app:layout_constraintTop_toBottomOf="@id/txt_eula_body"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp">
 
-        <TextView android:id="@+id/txt_question"
-            android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_section" android:text="@string/welcome_question"
-            android:textSize="@dimen/text_size_section" android:textStyle="bold"
-            android:textColor="@color/text_primary"
-            app:layout_constraintTop_toBottomOf="@id/chk_eula"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-        <LinearLayout android:id="@+id/spinner_container"
-            android:layout_width="0dp" android:layout_height="wrap_content"
-            android:orientation="vertical" android:layout_marginTop="@dimen/spacing_medium"
-            app:layout_constraintTop_toBottomOf="@id/txt_question"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
+                    <TextView android:id="@+id/txt_eula_title"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:text="@string/eula_title" android:textSize="@dimen/text_size_title"
+                        android:textStyle="bold" android:textColor="@color/text_primary"/>
 
-        <Button android:id="@+id/btn_add_country"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_medium" android:text="@string/welcome_add_country"
-            style="?attr/borderlessButtonStyle"
-            app:layout_constraintTop_toBottomOf="@id/spinner_container"
-            app:layout_constraintStart_toStartOf="parent"/>
+                    <TextView android:id="@+id/txt_eula_body"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_medium" android:text="@string/eula_body"
+                        android:textColor="@color/text_secondary"/>
 
-        <Button android:id="@+id/btn_check"
-            android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_section" android:text="@string/welcome_check"
-            android:enabled="false"
-            app:layout_constraintTop_toBottomOf="@id/btn_add_country"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <CheckBox android:id="@+id/chk_eula"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_medium" android:text="@string/eula_checkbox"/>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView android:id="@+id/txt_question"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:text="@string/welcome_question"
+                        android:textSize="@dimen/text_size_section" android:textStyle="bold"
+                        android:textColor="@color/text_primary"/>
+
+                    <LinearLayout android:id="@+id/spinner_container"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="vertical" android:layout_marginTop="@dimen/spacing_medium"/>
+
+                    <Button android:id="@+id/btn_add_country"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_medium" android:text="@string/welcome_add_country"
+                        style="?attr/borderlessButtonStyle"/>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <Button android:id="@+id/btn_check"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_section"
+                android:layout_marginHorizontal="12dp"
+                android:text="@string/welcome_check"
+                android:enabled="false"
+                android:backgroundTint="@color/color_primary"
+                android:textColor="@color/text_on_primary"/>
+
+        </LinearLayout>
+    </FrameLayout>
 </ScrollView>

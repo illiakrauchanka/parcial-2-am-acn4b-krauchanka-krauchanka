@@ -163,7 +163,7 @@ public class MedicineListActivity extends BaseActivity {
         boolean mine = myMedIds.contains(m.id);
         row.findViewById(R.id.txt_mine_badge).setVisibility(mine ? View.VISIBLE : View.GONE);
         row.findViewById(R.id.row_root).setBackgroundResource(
-                mine ? R.drawable.bg_mine_highlight : android.R.color.transparent);
+                mine ? R.drawable.bg_mine_highlight : R.drawable.bg_card_row);
     }
 
     private void applyBadge(TextView badge, Status status) {
