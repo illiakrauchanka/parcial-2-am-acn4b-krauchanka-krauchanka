@@ -46,6 +46,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         col.addView(toolbar, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
+        // Vyshyvanka ornament band — brand element under the dark toolbar on every screen.
+        android.widget.ImageView band = new android.widget.ImageView(this);
+        band.setImageResource(R.drawable.ornament_band);
+        band.setScaleType(android.widget.ImageView.ScaleType.FIT_XY);
+        band.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        col.addView(band, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                getResources().getDimensionPixelSize(R.dimen.ornament_band_height)));
+
         FrameLayout content = new FrameLayout(this);
         content.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
