@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="240dp"
+    android:height="240dp"
+    android:viewportWidth="240"
+    android:viewportHeight="240">
+    <path android:fillColor="@color/ornament_faint"
+        android:pathData="M120,10 L230,120 L120,230 L10,120 Z"/>
+    <path android:fillColor="@color/surface"
+        android:pathData="M120,40 L200,120 L120,200 L40,120 Z"/>
+    <path android:fillColor="@color/ornament_faint"
+        android:pathData="M120,70 L170,120 L120,170 L70,120 Z"/>
+    <path android:fillColor="@color/surface"
+        android:pathData="M120,95 L145,120 L120,145 L95,120 Z"/>
+    <path android:fillColor="@color/ornament_faint"
+        android:pathData="M120,108 L132,120 L120,132 L108,120 Z"/>
+</vector>
