@@ -126,7 +126,7 @@
     <string name="scan_looking_up">Buscando sustancia activa…</string>
     <string name="scan_brand_label">Nombre detectado</string>
     <string name="scan_substance_label">Sustancia activa</string>
-    <string name="scan_substance_unknown">No identificada — podés editar el nombre y reintentar</string>
+    <string name="scan_substance_unknown">No identificada — podés editar el nombre y guardarla igual</string>
     <string name="scan_warning_restricted">¡Atención! Esta sustancia figura en el listado de tus países de destino. Tocá para ver el detalle.</string>
     <string name="scan_save">Tomo este medicamento</string>
     <string name="scan_retry">Reintentar</string>

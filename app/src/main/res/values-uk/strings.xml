@@ -129,7 +129,7 @@
     <string name="scan_looking_up">Пошук діючої речовини…</string>
     <string name="scan_brand_label">Розпізнана назва</string>
     <string name="scan_substance_label">Діюча речовина</string>
-    <string name="scan_substance_unknown">Не визначено — відредагуйте назву і повторіть</string>
+    <string name="scan_substance_unknown">Не визначено — можете відредагувати назву і все одно зберегти</string>
     <string name="scan_warning_restricted">Увага! Ця речовина є у списку ваших країн призначення. Торкніться, щоб побачити деталі.</string>
     <string name="scan_save">Я приймаю ці ліки</string>
     <string name="scan_retry">Повторити</string>

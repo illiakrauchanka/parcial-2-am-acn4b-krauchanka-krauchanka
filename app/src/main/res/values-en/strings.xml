@@ -127,7 +127,7 @@
     <string name="scan_looking_up">Looking up active substance…</string>
     <string name="scan_brand_label">Detected name</string>
     <string name="scan_substance_label">Active substance</string>
-    <string name="scan_substance_unknown">Not identified — edit the name and retry</string>
+    <string name="scan_substance_unknown">Not identified — you can edit the name and still save it</string>
     <string name="scan_warning_restricted">Warning! This substance is listed for your destination countries. Tap to see details.</string>
     <string name="scan_save">I take this medicine</string>
     <string name="scan_retry">Retry</string>
