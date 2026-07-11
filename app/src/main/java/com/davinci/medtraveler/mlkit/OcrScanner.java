@@ -8,6 +8,7 @@ import android.os.Looper;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
+import com.google.mlkit.vision.text.TextRecognizer;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
 import java.util.ArrayList;
@@ -35,14 +36,15 @@ public class OcrScanner {
             main.post(() -> cb.onError(e));
             return;
         }
-        TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
-                .process(image)
+        TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
+        recognizer.process(image)
                 .addOnSuccessListener(text -> {
                     List<String> lines = flatten(text);
                     String candidate = pickBrandCandidate(lines);
                     main.post(() -> cb.onResult(lines, candidate));
                 })
-                .addOnFailureListener(e -> main.post(() -> cb.onError(e)));
+                .addOnFailureListener(e -> main.post(() -> cb.onError(e)))
+                .addOnCompleteListener(t -> recognizer.close());
     }
 
     private static List<String> flatten(Text text) {
