@@ -130,7 +130,7 @@
     <string name="scan_brand_label">Распазнаная назва</string>
     <string name="scan_substance_label">Дзейнае рэчыва</string>
     <string name="scan_substance_unknown">Не вызначана — адрэдагуйце назву і паўтарыце</string>
-    <string name="scan_warning_restricted">Увага! Гэтае рэчыва ёсць у спісе вашых краін прызначэння. Акадаўжыце, каб убачыць падрабязнасці.</string>
+    <string name="scan_warning_restricted">Увага! Гэтае рэчыва ёсць у спісе вашых краін прызначэння. Націсніце, каб убачыць падрабязнасці.</string>
     <string name="scan_save">Я прымаю гэтыя лекі</string>
     <string name="scan_retry">Паўтарыць</string>
     <string name="scan_error_ocr">Не ўдалося распазнаць тэкст на выяве</string>
