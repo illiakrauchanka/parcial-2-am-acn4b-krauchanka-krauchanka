@@ -19,6 +19,7 @@ Welcome (EULA + elegir país) → Checklist por país → Detalle de medicamento
                                                          └→ "Mis medicamentos"
 Drawer: Inicio · Buscar · Contacto · Cuenta          ▲
                           └→ Login / Registro (email o Google) / Profile
+                          └→ Escanear (OCR)
    Contacto abre mail (mailto:); si no hay cliente de correo, Toast con la dirección.
 ```
 
@@ -101,15 +102,28 @@ botón **Cerrar sesión**.
 
 **Flujo:** drawer → **Cuenta** (sólo si logueado); quita medicamentos o cierra sesión.
 
-### 7. Drawer (común)
+### 7. ScanActivity (Escanear medicamento)
+
+**Funcionalidades:** foto con la cámara del sistema (`TakePicture` + FileProvider,
+sin permiso CAMERA) o imagen de la galería (`PickVisualMedia`); OCR on-device con
+**Google ML Kit Text Recognition**; el nombre detectado se resuelve a **sustancia
+activa** vía la API pública **OpenFDA** (`api.fda.gov/drug/label.json`, OkHttp);
+si la sustancia figura en el catálogo de los países elegidos se muestra una
+advertencia con link al detalle; "Tomo este medicamento" guarda en Firestore
+`users/{uid}/myMeds/scan_<sustancia>` (requiere sesión).
+
+**Flujo:** toolbar 📷 o drawer → **Escanear**; foto → reconocimiento → confirmación
+(marca editable + sustancia) → guardar.
+
+### 8. Drawer (común)
 
 ![Drawer](docs/screenshots/07_drawer.png)
 
 `BaseActivity` monta el toolbar, el drawer y la barra de progreso superior
 indeterminada. Header muestra "Base actualizada: <fecha>" (la más reciente entre
 los países en caché, refrescado en `onResume`). Ítems: Inicio, Buscar, Contacto
-(sólo si hay sesión), Cuenta (→ Auth o Profile según haya sesión). Toolbar trae
-el botón ⟳ de **Update DB**.
+(sólo si hay sesión), Cuenta (→ Auth o Profile según haya sesión), Escanear.
+Toolbar trae el botón ⟳ de **Update DB** y el botón 📷 de **Escanear**.
 
 ## Datos
 
@@ -129,7 +143,14 @@ localmente (`Room` + `CatalogMeta` en SharedPreferences).
 
 Java 11 · min SDK 24 · target SDK 36 · AndroidX AppCompat + Material Components
 · ConstraintLayout / LinearLayout · Firebase Auth + Firestore + Realtime
-Database (REST con OkHttp, no el SDK) · Room (caché) · Glide (imágenes URL).
+Database (REST con OkHttp, no el SDK) · Room (caché) · Glide (imágenes URL)
+· ML Kit Text Recognition (OCR on-device) · OpenFDA drug/label API.
+
+## Diseño
+
+La interfaz usa una identidad visual *vyshyvanka* bielorrusa: fondo blanco,
+acento rojo folk (`#C8102E`) y una banda de ornamento de diamantes bajo el
+toolbar en todas las pantallas.
 
 ## Cómo correr
 
@@ -162,11 +183,13 @@ keep-rules para model/Room/Glide/Firebase por si se habilita más adelante.
 ```
 app/src/main/java/com/davinci/medtraveler/
 ├── data/   Catalog · CatalogJson · CatalogMeta · CatalogRepo ·
-│           CatalogUpdater(OkHttp) · AuthManager · UserMedsRepo(Firestore)
+│           CatalogUpdater(OkHttp) · DrugInfoRepo(OpenFDA) · AuthManager ·
+│           UserMedsRepo(Firestore)
 │           └── local/  AppDatabase · MedDao(@Transaction) · MedEntity
+├── mlkit/  OcrScanner (Google ML Kit Text Recognition)
 ├── model/  CountryCatalog · Medicine · Status(RESTRICTED/PENAL)
 ├── ui/     BaseActivity(drawer+toolbar+progress) · Welcome · MedicineList ·
-│           MedicineDetail · Search · Auth · Profile · CatalogNotifier ·
+│           MedicineDetail · Search · Auth · Profile · Scan · CatalogNotifier ·
 │           CountrySpinnerAdapter
 └── util/   SearchFilter
 ```
