@@ -19,9 +19,41 @@ public class UserMedsRepo {
 
     public static final class MyMed {
         public final String medId, name, countryCode;
-        public MyMed(String medId, String name, String countryCode) {
+        /** Active substance for scan-sourced meds; null for catalog-sourced ones. */
+        public final String activeSubstance;
+        public MyMed(String medId, String name, String countryCode, String activeSubstance) {
             this.medId = medId; this.name = name; this.countryCode = countryCode;
+            this.activeSubstance = activeSubstance;
         }
+    }
+
+    /** Normalized Firestore doc id for a scanned med: "scan_" + lowercased key with
+     *  every non-alphanumeric run collapsed to '_'. Prefers the active substance (stable
+     *  across brands); falls back to the brand. Null when both inputs are blank. */
+    public static String scannedMedId(String brand, String activeSubstance) {
+        String key = activeSubstance != null && !activeSubstance.trim().isEmpty()
+                ? activeSubstance : brand;
+        if (key == null || key.trim().isEmpty()) return null;
+        String norm = key.trim().toLowerCase(java.util.Locale.ROOT)
+                .replaceAll("[^\\p{L}\\p{Nd}]+", "_")
+                .replaceAll("^_+|_+$", "");
+        return norm.isEmpty() ? null : "scan_" + norm;
+    }
+
+    /** Saves a medicine captured via photo scan under users/{uid}/myMeds/{scannedMedId}.
+     *  No countryCode: a scanned med is the user's own, not tied to a catalog country. */
+    public void addScannedMed(String uid, String brand, String activeSubstance, DoneCallback cb) {
+        String id = scannedMedId(brand, activeSubstance);
+        if (id == null) { cb.onDone(false); return; }
+        Map<String, Object> data = new HashMap<>();
+        data.put("name", brand);
+        data.put("activeSubstance", activeSubstance);
+        data.put("source", "scan");
+        data.put("addedAt", System.currentTimeMillis());
+        db.collection("users").document(uid).collection("myMeds").document(id)
+                .set(data)
+                .addOnSuccessListener(x -> cb.onDone(true))
+                .addOnFailureListener(e -> cb.onDone(false));
     }
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -59,7 +91,8 @@ public class UserMedsRepo {
                 .addOnSuccessListener(snap -> {
                     List<MyMed> out = new ArrayList<>();
                     for (DocumentSnapshot d : snap.getDocuments())
-                        out.add(new MyMed(d.getId(), d.getString("name"), d.getString("countryCode")));
+                        out.add(new MyMed(d.getId(), d.getString("name"),
+                                d.getString("countryCode"), d.getString("activeSubstance")));
                     cb.onResult(out);
                 })
                 .addOnFailureListener(e -> cb.onResult(new ArrayList<>()));
