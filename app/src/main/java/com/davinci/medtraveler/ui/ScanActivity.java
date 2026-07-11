@@ -95,6 +95,9 @@ public class ScanActivity extends BaseActivity {
         showState(stateEmpty);
     }
 
+    /** True when the activity is being torn down — async callbacks must not touch views. */
+    private boolean gone() { return isFinishing() || isDestroyed(); }
+
     private void launchCamera() {
         try {
             File dir = new File(getCacheDir(), "scans");
@@ -116,11 +119,13 @@ public class ScanActivity extends BaseActivity {
 
         ocr.recognize(this, imageUri, new OcrScanner.ResultCallback() {
             @Override public void onResult(List<String> lines, String candidate) {
+                if (gone()) return;
                 if (candidate == null) { showError(getString(R.string.scan_error_ocr)); return; }
                 brandEdit.setText(candidate);
                 lookupSubstance(candidate);
             }
             @Override public void onError(Exception e) {
+                if (gone()) return;
                 showError(getString(R.string.scan_error_ocr));
             }
         });
@@ -131,11 +136,13 @@ public class ScanActivity extends BaseActivity {
         showState(stateProgress);
         drugInfo.lookup(brand, new DrugInfoRepo.Callback() {
             @Override public void onFound(String activeIngredient) {
+                if (gone()) return;
                 resolvedSubstance = activeIngredient;
                 substanceText.setText(activeIngredient);
                 checkCatalog(activeIngredient);
             }
             @Override public void onNotFound() {
+                if (gone()) return;
                 resolvedSubstance = null;
                 matchedCatalogMed = null;
                 substanceText.setText(R.string.scan_substance_unknown);
@@ -143,6 +150,7 @@ public class ScanActivity extends BaseActivity {
                 showState(stateResult);
             }
             @Override public void onError(Exception e) {
+                if (gone()) return;
                 showError(getString(R.string.scan_error_network));
             }
         });
@@ -159,6 +167,7 @@ public class ScanActivity extends BaseActivity {
                     scope.add(m);
             List<Medicine> hits = SearchFilter.filter(scope, substance);
             runOnUiThread(() -> {
+                if (gone()) return;
                 matchedCatalogMed = hits.isEmpty() ? null : hits.get(0);
                 warningText.setVisibility(matchedCatalogMed == null ? View.GONE : View.VISIBLE);
                 if (matchedCatalogMed != null) {
@@ -181,6 +190,7 @@ public class ScanActivity extends BaseActivity {
         }
         String brand = brandEdit.getText().toString().trim();
         new UserMedsRepo().addScannedMed(uid, brand, resolvedSubstance, ok -> runOnUiThread(() -> {
+            if (gone()) return;
             if (ok) {
                 Toast.makeText(this, R.string.scan_saved, Toast.LENGTH_SHORT).show();
                 finish();
