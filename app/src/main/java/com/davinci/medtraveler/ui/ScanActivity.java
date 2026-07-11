@@ -211,6 +211,13 @@ public class ScanActivity extends BaseActivity {
         if (active == stateEmpty) preview.setVisibility(View.GONE);
     }
 
+    @Override public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        android.view.MenuItem scan = menu.findItem(R.id.action_scan);
+        if (scan != null) scan.setVisible(false);
+        return true;
+    }
+
     @Override protected void onDestroy() {
         super.onDestroy();
         drugInfo.shutdown();

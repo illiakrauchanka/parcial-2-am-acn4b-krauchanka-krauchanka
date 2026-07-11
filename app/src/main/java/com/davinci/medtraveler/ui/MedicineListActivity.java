@@ -178,6 +178,12 @@ public class MedicineListActivity extends BaseActivity {
         badge.setBackgroundTintList(ContextCompat.getColorStateList(this, colorRes));
     }
 
+    @Override protected Intent scanIntent() {
+        Intent i = super.scanIntent();
+        i.putExtra(EXTRA_COUNTRY_CODES, codes.toArray(new String[0]));
+        return i;
+    }
+
     @Override protected void onDestroy() {
         super.onDestroy();
         io.shutdown();

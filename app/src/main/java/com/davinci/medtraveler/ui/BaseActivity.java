@@ -86,6 +86,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             int id = item.getItemId();
             if (id == R.id.nav_home) openHome();
             else if (id == R.id.nav_search) startActivity(new Intent(this, SearchActivity.class));
+            else if (id == R.id.nav_scan) startActivity(new Intent(this, ScanActivity.class));
             else if (id == R.id.nav_contact) openContact();
             else if (id == R.id.nav_account) openAccount();
             return true;
@@ -137,7 +138,17 @@ public abstract class BaseActivity extends AppCompatActivity {
             onUpdateDbRequested();
             return true;
         }
+        if (item.getItemId() == R.id.action_scan) {
+            startActivity(scanIntent());
+            return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    /** Intent for the scan screen. Screens that know the selected countries override
+     *  this to pass them along so the scan result is checked against the right catalog. */
+    protected Intent scanIntent() {
+        return new Intent(this, ScanActivity.class);
     }
 
     @Override

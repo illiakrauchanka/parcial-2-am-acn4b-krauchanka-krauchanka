@@ -45,9 +45,12 @@ public class ProfileActivity extends BaseActivity {
         empty.setVisibility(items.isEmpty() ? View.VISIBLE : View.GONE);
         for (UserMedsRepo.MyMed it : items) {
             View row = getLayoutInflater().inflate(R.layout.row_my_med, container, false);
-            String country = it.countryCode == null ? "" : CountryCatalog.nameOf(it.countryCode);
-            ((TextView) row.findViewById(R.id.txt_name)).setText(
-                    getString(R.string.name_value_line, it.name, country));
+            // Catalog meds show "name — country"; scanned meds have no country, show the
+            // active substance instead (or just the name when substance is unknown).
+            String secondary = it.countryCode != null ? CountryCatalog.nameOf(it.countryCode)
+                    : (it.activeSubstance != null ? it.activeSubstance : "");
+            ((TextView) row.findViewById(R.id.txt_name)).setText(secondary.isEmpty()
+                    ? it.name : getString(R.string.name_value_line, it.name, secondary));
             ((Button) row.findViewById(R.id.btn_remove)).setOnClickListener(v ->
                     repo.removeMyMed(uid, it.medId, ok -> {
                         if (ok) load(uid);
