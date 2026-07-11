@@ -54,7 +54,12 @@ public class DrugInfoRepo {
                 try (Response r = client.newCall(
                         new Request.Builder().url(url).build()).execute()) {
                     // OpenFDA answers 404 with an error JSON body when nothing matches —
-                    // that is "not found", not a transport failure.
+                    // that is "not found", not a transport failure. Any other non-2xx
+                    // status (5xx, gateway HTML pages) IS a transport failure.
+                    if (!r.isSuccessful() && r.code() != 404) {
+                        main.post(() -> cb.onError(new java.io.IOException("HTTP " + r.code())));
+                        return;
+                    }
                     String body = r.body() == null ? null : r.body().string();
                     String ingredient = parseActiveIngredient(body);
                     if (ingredient != null) main.post(() -> cb.onFound(ingredient));
