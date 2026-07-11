@@ -116,4 +116,24 @@
 
     <!-- Search -->
     <string name="search_empty">No results</string>
+
+    <!-- Scan screen -->
+    <string name="menu_scan">Scan medicine</string>
+    <string name="scan_title">Scan medicine</string>
+    <string name="scan_hint">Take a photo of the package to detect the active substance.</string>
+    <string name="scan_take_photo">Take photo</string>
+    <string name="scan_pick_gallery">Choose from gallery</string>
+    <string name="scan_recognizing">Recognizing text…</string>
+    <string name="scan_looking_up">Looking up active substance…</string>
+    <string name="scan_brand_label">Detected name</string>
+    <string name="scan_substance_label">Active substance</string>
+    <string name="scan_substance_unknown">Not identified — edit the name and retry</string>
+    <string name="scan_warning_restricted">Warning! This substance is listed for your destination countries. Tap to see details.</string>
+    <string name="scan_save">I take this medicine</string>
+    <string name="scan_retry">Retry</string>
+    <string name="scan_error_ocr">Couldn\'t recognize text in the image</string>
+    <string name="scan_error_network">Network error while looking up the substance</string>
+    <string name="scan_saved">Saved to my medicines</string>
+    <string name="scan_save_fail">Couldn\'t save</string>
+    <string name="cd_scan_preview">Photo of the medicine</string>
 </resources>

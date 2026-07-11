@@ -115,4 +115,24 @@
 
     <!-- Search -->
     <string name="search_empty">无结果</string>
+
+    <!-- Scan screen -->
+    <string name="menu_scan">扫描药品</string>
+    <string name="scan_title">扫描药品</string>
+    <string name="scan_hint">拍摄药盒照片以识别有效成分。</string>
+    <string name="scan_take_photo">拍照</string>
+    <string name="scan_pick_gallery">从相册选择</string>
+    <string name="scan_recognizing">正在识别文字…</string>
+    <string name="scan_looking_up">正在查询有效成分…</string>
+    <string name="scan_brand_label">识别出的名称</string>
+    <string name="scan_substance_label">有效成分</string>
+    <string name="scan_substance_unknown">未能识别 — 可编辑名称后重试</string>
+    <string name="scan_warning_restricted">注意！该成分在您目的地国家的管制清单中。点按查看详情。</string>
+    <string name="scan_save">我服用此药</string>
+    <string name="scan_retry">重试</string>
+    <string name="scan_error_ocr">无法识别图片中的文字</string>
+    <string name="scan_error_network">查询成分时网络出错</string>
+    <string name="scan_saved">已保存到我的药品</string>
+    <string name="scan_save_fail">保存失败</string>
+    <string name="cd_scan_preview">药品照片</string>
 </resources>

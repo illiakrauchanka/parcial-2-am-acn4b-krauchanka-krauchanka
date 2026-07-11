@@ -118,4 +118,24 @@
 
     <!-- Search -->
     <string name="search_empty">Без результатів</string>
+
+    <!-- Scan screen -->
+    <string name="menu_scan">Сканувати ліки</string>
+    <string name="scan_title">Сканувати ліки</string>
+    <string name="scan_hint">Сфотографуйте упаковку, щоб визначити діючу речовину.</string>
+    <string name="scan_take_photo">Зробити фото</string>
+    <string name="scan_pick_gallery">Вибрати з галереї</string>
+    <string name="scan_recognizing">Розпізнавання тексту…</string>
+    <string name="scan_looking_up">Пошук діючої речовини…</string>
+    <string name="scan_brand_label">Розпізнана назва</string>
+    <string name="scan_substance_label">Діюча речовина</string>
+    <string name="scan_substance_unknown">Не визначено — відредагуйте назву і повторіть</string>
+    <string name="scan_warning_restricted">Увага! Ця речовина є у списку ваших країн призначення. Торкніться, щоб побачити деталі.</string>
+    <string name="scan_save">Я приймаю ці ліки</string>
+    <string name="scan_retry">Повторити</string>
+    <string name="scan_error_ocr">Не вдалося розпізнати текст на зображенні</string>
+    <string name="scan_error_network">Помилка мережі під час пошуку речовини</string>
+    <string name="scan_saved">Збережено в моїх ліках</string>
+    <string name="scan_save_fail">Не вдалося зберегти</string>
+    <string name="cd_scan_preview">Фото ліків</string>
 </resources>

@@ -115,4 +115,24 @@
 
     <!-- Search -->
     <string name="search_empty">Sin resultados</string>
+
+    <!-- Scan screen -->
+    <string name="menu_scan">Escanear medicamento</string>
+    <string name="scan_title">Escanear medicamento</string>
+    <string name="scan_hint">Sacá una foto del envase para detectar la sustancia activa.</string>
+    <string name="scan_take_photo">Sacar foto</string>
+    <string name="scan_pick_gallery">Elegir de la galería</string>
+    <string name="scan_recognizing">Reconociendo texto…</string>
+    <string name="scan_looking_up">Buscando sustancia activa…</string>
+    <string name="scan_brand_label">Nombre detectado</string>
+    <string name="scan_substance_label">Sustancia activa</string>
+    <string name="scan_substance_unknown">No identificada — podés editar el nombre y reintentar</string>
+    <string name="scan_warning_restricted">¡Atención! Esta sustancia figura en el listado de tus países de destino. Tocá para ver el detalle.</string>
+    <string name="scan_save">Tomo este medicamento</string>
+    <string name="scan_retry">Reintentar</string>
+    <string name="scan_error_ocr">No se pudo reconocer texto en la imagen</string>
+    <string name="scan_error_network">Error de red al consultar la sustancia</string>
+    <string name="scan_saved">Guardado en mis medicamentos</string>
+    <string name="scan_save_fail">No se pudo guardar</string>
+    <string name="cd_scan_preview">Foto del medicamento</string>
 </resources>
