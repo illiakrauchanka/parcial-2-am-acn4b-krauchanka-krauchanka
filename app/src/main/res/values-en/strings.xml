@@ -60,10 +60,11 @@
     <string name="drawer_open">Open menu</string>
     <string name="drawer_close">Close menu</string>
     <string name="db_status_format">Database updated: %1$s</string>
+    <string name="db_status_latest_format">Database: %1$s · latest — checked %2$s</string>
     <string name="db_status_never">Database not updated yet</string>
     <string name="updating_db">Updating database…</string>
     <string name="db_updated">Database updated</string>
-    <string name="db_no_changes">No updates or no connection</string>
+    <string name="db_update_failed">Couldn\'t update — check your connection</string>
 
     <!-- Catalog notification -->
     <string name="notif_channel_name">Catalog updates</string>
@@ -87,6 +88,16 @@
     <string name="auth_err_password_short">The password must be at least %1$d characters long.</string>
     <string name="auth_google">Continue with Google</string>
 
+    <!-- Account deletion (required by Google Play policy since 2022) -->
+    <string name="account_delete">Delete account</string>
+    <string name="account_delete_confirm_title">Delete your account?</string>
+    <string name="account_delete_confirm_body">Your account and saved medicines will be permanently deleted. This action cannot be undone.</string>
+    <string name="account_delete_yes">Delete</string>
+    <string name="account_delete_no">Cancel</string>
+    <string name="account_deleted">Account deleted</string>
+    <string name="account_delete_reauth">Please sign in again before deleting your account.</string>
+    <string name="account_delete_failed">Could not delete the account. Please try again.</string>
+
     <!-- My meds / detail -->
     <string name="detail_take_med">I take this medicine</string>
     <string name="detail_taken_ok">Saved to your medicines</string>
@@ -106,4 +117,24 @@
 
     <!-- Search -->
     <string name="search_empty">No results</string>
+
+    <!-- Scan screen -->
+    <string name="menu_scan">Scan medicine</string>
+    <string name="scan_title">Scan medicine</string>
+    <string name="scan_hint">Take a photo of the package to detect the active substance.</string>
+    <string name="scan_take_photo">Take photo</string>
+    <string name="scan_pick_gallery">Choose from gallery</string>
+    <string name="scan_recognizing">Recognizing text…</string>
+    <string name="scan_looking_up">Looking up active substance…</string>
+    <string name="scan_brand_label">Detected name</string>
+    <string name="scan_substance_label">Active substance</string>
+    <string name="scan_substance_unknown">Not identified — you can edit the name and still save it</string>
+    <string name="scan_warning_restricted">Warning! This substance is listed for your destination countries. Tap to see details.</string>
+    <string name="scan_save">I take this medicine</string>
+    <string name="scan_retry">Retry</string>
+    <string name="scan_error_ocr">Couldn\'t recognize text in the image</string>
+    <string name="scan_error_network">Network error while looking up the substance</string>
+    <string name="scan_saved">Saved to my medicines</string>
+    <string name="scan_save_fail">Couldn\'t save</string>
+    <string name="cd_scan_preview">Photo of the medicine</string>
 </resources>

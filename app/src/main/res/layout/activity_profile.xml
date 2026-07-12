@@ -15,6 +15,16 @@
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:orientation="vertical" android:layout_marginTop="@dimen/spacing_medium"/>
     </ScrollView>
+    <!-- Delete account: required by Google Play policy since 2022. Placed below the
+         list, visually secondary to Logout (text-button style, less prominent) so tap on
+         Logout is still the obvious safe action. -->
+    <Button android:id="@+id/btn_delete_account"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:text="@string/account_delete"
+        android:textAllCaps="false"
+        android:textColor="@color/status_penal"
+        style="@style/Widget.MaterialComponents.Button.TextButton"/>
     <Button android:id="@+id/btn_logout"
         android:layout_width="match_parent" android:layout_height="wrap_content"
         android:text="@string/auth_logout"/>

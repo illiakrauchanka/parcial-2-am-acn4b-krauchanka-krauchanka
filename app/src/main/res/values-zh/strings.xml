@@ -60,10 +60,11 @@
     <string name="drawer_open">打开菜单</string>
     <string name="drawer_close">关闭菜单</string>
     <string name="db_status_format">数据库已更新: %1$s</string>
+    <string name="db_status_latest_format">数据库：%1$s · latest — 检查于 %2$s</string>
     <string name="db_status_never">数据库尚未更新</string>
     <string name="updating_db">正在更新数据库…</string>
     <string name="db_updated">数据库已更新</string>
-    <string name="db_no_changes">无更新或无连接</string>
+    <string name="db_update_failed">无法更新 — 请检查网络连接</string>
 
     <!-- Catalog notification -->
     <string name="notif_channel_name">目录更新</string>
@@ -86,6 +87,16 @@
     <string name="auth_err_password_short">密码至少需要 %1$d 个字符。</string>
     <string name="auth_google">使用 Google 继续</string>
 
+    <!-- Account deletion (required by Google Play policy since 2022) -->
+    <string name="account_delete">删除账户</string>
+    <string name="account_delete_confirm_title">删除您的账户?</string>
+    <string name="account_delete_confirm_body">您的账户和已保存的药品将被永久删除。此操作无法撤销。</string>
+    <string name="account_delete_yes">删除</string>
+    <string name="account_delete_no">取消</string>
+    <string name="account_deleted">账户已删除</string>
+    <string name="account_delete_reauth">请重新登录后再删除账户。</string>
+    <string name="account_delete_failed">无法删除账户,请重试。</string>
+
     <!-- My meds / detail -->
     <string name="detail_take_med">我服用此药品</string>
     <string name="detail_taken_ok">已保存到您的药品</string>
@@ -105,4 +116,24 @@
 
     <!-- Search -->
     <string name="search_empty">无结果</string>
+
+    <!-- Scan screen -->
+    <string name="menu_scan">扫描药品</string>
+    <string name="scan_title">扫描药品</string>
+    <string name="scan_hint">拍摄药盒照片以识别有效成分。</string>
+    <string name="scan_take_photo">拍照</string>
+    <string name="scan_pick_gallery">从相册选择</string>
+    <string name="scan_recognizing">正在识别文字…</string>
+    <string name="scan_looking_up">正在查询有效成分…</string>
+    <string name="scan_brand_label">识别出的名称</string>
+    <string name="scan_substance_label">有效成分</string>
+    <string name="scan_substance_unknown">未能识别 — 可编辑名称后仍然保存</string>
+    <string name="scan_warning_restricted">注意！该成分在您目的地国家的管制清单中。点按查看详情。</string>
+    <string name="scan_save">我服用此药</string>
+    <string name="scan_retry">重试</string>
+    <string name="scan_error_ocr">无法识别图片中的文字</string>
+    <string name="scan_error_network">查询成分时网络出错</string>
+    <string name="scan_saved">已保存到我的药品</string>
+    <string name="scan_save_fail">保存失败</string>
+    <string name="cd_scan_preview">药品照片</string>
 </resources>

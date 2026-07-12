@@ -27,6 +27,17 @@ public class CatalogMeta {
         return a.compareTo(b) >= 0 ? a : b;
     }
 
+    /** True when EVERY known country was checked within the TTL — the condition for
+     *  showing the "· latest" badge in the drawer header. Empty/never-saved → false:
+     *  we can't claim "latest" about data we never verified. */
+    public static boolean allFresh(long[] savedAts, long now, long ttl) {
+        if (savedAts == null || savedAts.length == 0) return false;
+        for (long savedAt : savedAts) {
+            if (!isFresh(savedAt, now, ttl)) return false;
+        }
+        return true;
+    }
+
     public int getVersion(String code) { return prefs.getInt(code + ".version", 0); }
     public String getUpdatedAt(String code) { return prefs.getString(code + ".updatedAt", ""); }
     public long getSavedAt(String code) { return prefs.getLong(code + ".savedAt", 0); }
@@ -52,6 +63,24 @@ public class CatalogMeta {
             max = maxIso(max, getUpdatedAt(code));
         }
         return max;
+    }
+
+    /** Millis of the most recent successful per-country check (0 when none). */
+    public long lastCheckedGlobal() {
+        long max = 0;
+        for (String code : prefs.getStringSet(CODES, new HashSet<>())) {
+            max = Math.max(max, getSavedAt(code));
+        }
+        return max;
+    }
+
+    /** "· latest" badge condition: every known country was verified within the TTL. */
+    public boolean isLatest(long now) {
+        Set<String> codes = prefs.getStringSet(CODES, new HashSet<>());
+        long[] savedAts = new long[codes.size()];
+        int i = 0;
+        for (String code : codes) savedAts[i++] = getSavedAt(code);
+        return allFresh(savedAts, now, DEFAULT_TTL_MS);
     }
 
     public boolean isSeeded() { return prefs.getBoolean("seeded", false); }

@@ -58,3 +58,8 @@ app/release/google-services.json
 # Build artefacts and stray local dirs (never commit)
 /dist/
 /campus/
+
+# catalog updater artifacts (never commit)
+tools/cache/
+tools/out/
+__pycache__/

@@ -1,107 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- English (en) locale strings. Selected automatically when the device language is
+     English. The default values/strings.xml now holds the English strings as fallback
+     so a device set to an unmapped locale keeps this app language. -->
 <resources>
-    <!-- App-level (brand name, never translated) -->
     <string name="app_name" translatable="false">MedTraveler</string>
 
     <!-- Detail screen UI labels -->
-    <string name="detail_back">Volver</string>
-    <string name="detail_section_description">Descripción</string>
-    <string name="detail_section_key_facts">Datos clave</string>
-    <string name="detail_section_law">Extracto de ley</string>
-    <string name="detail_section_penalty">Penalidad</string>
-    <string name="detail_open_source">Abrir fuente oficial</string>
+    <string name="detail_back">Back</string>
+    <string name="detail_section_description">Description</string>
+    <string name="detail_section_key_facts">Key facts</string>
+    <string name="detail_section_law">Law excerpt</string>
+    <string name="detail_section_penalty">Penalty</string>
+    <string name="detail_open_source">Open official source</string>
 
     <!-- Status badges -->
-    <string name="status_allowed">PERMITIDO</string>
-    <string name="status_restricted">RESTRINGIDO</string>
-    <string name="status_penal">PENAL</string>
+    <string name="status_allowed">ALLOWED</string>
+    <string name="status_restricted">RESTRICTED</string>
+    <string name="status_penal">CRIMINAL</string>
 
     <!-- Status full descriptions (for toast) -->
-    <string name="status_desc_allowed">Permitido el ingreso al país sin restricciones especiales.</string>
-    <string name="status_desc_restricted">Permitido bajo receta archivada y/o cantidad limitada.</string>
-    <string name="status_desc_penal">El porte sin autorización implica responsabilidad penal.</string>
+    <string name="status_desc_allowed">May be brought into the country with no special restrictions.</string>
+    <string name="status_desc_restricted">Allowed with a filed prescription and/or a limited quantity.</string>
+    <string name="status_desc_penal">Carrying it without authorization implies criminal liability.</string>
 
-    <!-- Datos clave row labels -->
-    <string name="fact_label_substance">Sustancia activa</string>
-    <string name="fact_label_group">Grupo</string>
-    <string name="fact_label_prescription">Receta</string>
-    <string name="fact_label_brand">Marca comercial</string>
+    <!-- Key facts row labels -->
+    <string name="fact_label_substance">Active substance</string>
+    <string name="fact_label_group">Group</string>
+    <string name="fact_label_prescription">Prescription</string>
+    <string name="fact_label_brand">Brand name</string>
 
     <!-- Medicine list -->
-    <string name="medicine_search_hint">Buscar por nombre o sustancia</string>
+    <string name="medicine_search_hint">Search by name or substance</string>
 
     <!-- Detail extras -->
-    <string name="detail_added_fail">No se pudo agregar</string>
-    <string name="detail_load_error">No se pudo cargar el medicamento</string>
-    <string name="trip_remove_fail">No se pudo quitar</string>
+    <string name="detail_added_fail">Could not add</string>
+    <string name="detail_load_error">Could not load the medicine</string>
+    <string name="trip_remove_fail">Could not remove</string>
 
     <!-- Accessibility -->
-    <string name="cd_flag">Bandera del país</string>
-    <string name="cd_medicine_image">Imagen del medicamento</string>
+    <string name="cd_flag">Country flag</string>
+    <string name="cd_medicine_image">Medicine image</string>
 
     <!-- EULA / Welcome v2 -->
-    <string name="eula_title">Antes de empezar</string>
-    <string name="eula_body">La información de esta app se basa en datos públicos y no siempre refleja las leyes vigentes. Para estar seguro, te recomendamos consultar a los organismos oficiales de cada país y revisar su lista de sustancias prohibidas al ingreso.</string>
-    <string name="eula_checkbox">Leí y entiendo el descargo de responsabilidad</string>
-    <string name="welcome_question">¿A qué países pensás viajar?</string>
-    <string name="welcome_add_country">+ Agregar otro país</string>
-    <string name="welcome_remove_country">Quitar</string>
+    <string name="eula_title">Before you start</string>
+    <string name="eula_body">The information in this app is based on public data and does not always reflect current laws. To be sure, we recommend consulting the official bodies of each country and checking their list of substances banned on entry.</string>
+    <string name="eula_checkbox">I have read and understand the disclaimer</string>
+    <string name="welcome_question">Which countries are you planning to travel to?</string>
+    <string name="welcome_add_country">+ Add another country</string>
+    <string name="welcome_remove_country">Remove</string>
     <string name="welcome_check">CHECK my meds</string>
 
     <!-- Drawer / DB status -->
-    <string name="menu_title">Menú</string>
-    <string name="menu_home">Inicio</string>
-    <string name="menu_search">Buscar</string>
-    <string name="menu_contact">Contacto</string>
-    <string name="menu_update_db">Actualizar base</string>
-    <string name="menu_account">Cuenta</string>
-    <string name="drawer_open">Abrir menú</string>
-    <string name="drawer_close">Cerrar menú</string>
-    <string name="db_status_format">Base actualizada: %1$s</string>
-    <string name="db_status_never">Base no actualizada todavía</string>
-    <string name="updating_db">Actualizando base…</string>
-    <string name="db_updated">Base actualizada</string>
-    <string name="db_no_changes">Sin novedades o sin conexión</string>
+    <string name="menu_title">Menu</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_contact">Contact</string>
+    <string name="menu_update_db">Update database</string>
+    <string name="menu_account">Account</string>
+    <string name="drawer_open">Open menu</string>
+    <string name="drawer_close">Close menu</string>
+    <string name="db_status_format">Database updated: %1$s</string>
+    <string name="db_status_latest_format">Database: %1$s · latest — checked %2$s</string>
+    <string name="db_status_never">Database not updated yet</string>
+    <string name="updating_db">Updating database…</string>
+    <string name="db_updated">Database updated</string>
+    <string name="db_update_failed">Couldn\'t update — check your connection</string>
 
-    <!-- Notificación del catálogo -->
-    <string name="notif_channel_name">Actualizaciones del catálogo</string>
-    <string name="notif_channel_desc">Avisos cuando se actualiza la base de medicamentos</string>
-    <string name="notif_updated_title">Base actualizada</string>
+    <!-- Catalog notification -->
+    <string name="notif_channel_name">Catalog updates</string>
+    <string name="notif_channel_desc">Notifies when the medicine database is updated</string>
+    <string name="notif_updated_title">Database updated</string>
     <string name="notif_date_suffix"> · %1$s</string>
     <plurals name="notif_countries">
-        <item quantity="one">%d país al día</item>
-        <item quantity="other">%d países al día</item>
+        <item quantity="one">%d country up to date</item>
+        <item quantity="other">%d countries up to date</item>
     </plurals>
 
     <!-- Auth -->
     <string name="auth_email_hint">Email</string>
-    <string name="auth_password_hint">Contraseña</string>
-    <string name="auth_login">Iniciar sesión</string>
-    <string name="auth_register">Registrarme</string>
-    <string name="auth_logout">Cerrar sesión</string>
-    <string name="auth_error">No se pudo completar. Revisá los datos y la conexión.</string>
-    <string name="auth_logged_in">Sesión iniciada</string>
-    <string name="auth_err_email_required">Ingresá tu email.</string>
-    <string name="auth_err_password_short">La contraseña debe tener al menos %1$d caracteres.</string>
-    <string name="auth_google">Continuar con Google</string>
+    <string name="auth_password_hint">Password</string>
+    <string name="auth_login">Sign in</string>
+    <string name="auth_register">Register</string>
+    <string name="auth_logout">Sign out</string>
+    <string name="auth_error">Could not complete. Check your details and connection.</string>
+    <string name="auth_logged_in">Signed in</string>
+    <string name="auth_err_email_required">Enter your email.</string>
+    <string name="auth_err_password_short">The password must be at least %1$d characters long.</string>
+    <string name="auth_google">Continue with Google</string>
+
+    <!-- Account deletion (required by Google Play policy since 2022) -->
+    <string name="account_delete">Delete account</string>
+    <string name="account_delete_confirm_title">Delete your account?</string>
+    <string name="account_delete_confirm_body">Your account and saved medicines will be permanently deleted. This action cannot be undone.</string>
+    <string name="account_delete_yes">Delete</string>
+    <string name="account_delete_no">Cancel</string>
+    <string name="account_deleted">Account deleted</string>
+    <string name="account_delete_reauth">Please sign in again before deleting your account.</string>
+    <string name="account_delete_failed">Could not delete the account. Please try again.</string>
 
     <!-- My meds / detail -->
-    <string name="detail_take_med">Tomo este medicamento</string>
-    <string name="detail_taken_ok">Guardado en tus medicamentos</string>
-    <string name="my_meds_title">Mis medicamentos</string>
-    <string name="my_meds_empty">Todavía no guardaste medicamentos.</string>
-    <string name="badge_mine">★ mío</string>
+    <string name="detail_take_med">I take this medicine</string>
+    <string name="detail_taken_ok">Saved to your medicines</string>
+    <string name="my_meds_title">My medicines</string>
+    <string name="my_meds_empty">You haven\'t saved any medicines yet.</string>
+    <string name="badge_mine">★ mine</string>
     <string name="name_value_line">%1$s — %2$s</string>
 
-    <!-- Contact (email/subject are not translated) -->
+    <!-- Contact -->
     <string name="contact_email" translatable="false">ilja.kravchenko@gmail.com</string>
-    <string name="contact_subject" translatable="false">Consulta MedTraveler</string>
-    <string name="contact_no_app">No hay una app de correo instalada</string>
-    <string name="contact_no_app_with_address">No hay una app de correo. Escribinos a %1$s</string>
+    <string name="contact_subject" translatable="false">MedTraveler enquiry</string>
+    <string name="contact_no_app">No email app installed</string>
+    <string name="contact_no_app_with_address">No email app. Write to us at %1$s</string>
 
     <!-- Section header -->
     <string name="section_meta_format">v%1$d · %2$s</string>
 
     <!-- Search -->
-    <string name="search_empty">Sin resultados</string>
+    <string name="search_empty">No results</string>
+
+    <!-- Scan screen -->
+    <string name="menu_scan">Scan medicine</string>
+    <string name="scan_title">Scan medicine</string>
+    <string name="scan_hint">Take a photo of the package to detect the active substance.</string>
+    <string name="scan_take_photo">Take photo</string>
+    <string name="scan_pick_gallery">Choose from gallery</string>
+    <string name="scan_recognizing">Recognizing text…</string>
+    <string name="scan_looking_up">Looking up active substance…</string>
+    <string name="scan_brand_label">Detected name</string>
+    <string name="scan_substance_label">Active substance</string>
+    <string name="scan_substance_unknown">Not identified — you can edit the name and still save it</string>
+    <string name="scan_warning_restricted">Warning! This substance is listed for your destination countries. Tap to see details.</string>
+    <string name="scan_save">I take this medicine</string>
+    <string name="scan_retry">Retry</string>
+    <string name="scan_error_ocr">Couldn\'t recognize text in the image</string>
+    <string name="scan_error_network">Network error while looking up the substance</string>
+    <string name="scan_saved">Saved to my medicines</string>
+    <string name="scan_save_fail">Couldn\'t save</string>
+    <string name="cd_scan_preview">Photo of the medicine</string>
 </resources>

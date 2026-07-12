@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:orientation="horizontal" android:gravity="center_vertical"
-    android:padding="@dimen/padding_card" android:background="@drawable/bg_quote"
-    android:layout_marginBottom="@dimen/spacing_medium">
+    android:padding="12dp" android:background="@drawable/bg_card_row"
+    android:layout_marginStart="12dp" android:layout_marginEnd="12dp"
+    android:layout_marginBottom="8dp">
     <TextView android:id="@+id/txt_name"
         android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
         android:textSize="@dimen/text_size_body" android:textColor="@color/text_primary"/>
     <Button android:id="@+id/btn_remove"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="@string/welcome_remove_country" style="?attr/borderlessButtonStyle"/>
+        android:text="@string/welcome_remove_country" android:textColor="@color/color_primary"
+        style="?attr/borderlessButtonStyle"/>
 </LinearLayout>

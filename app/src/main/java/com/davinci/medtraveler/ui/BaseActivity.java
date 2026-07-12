@@ -46,6 +46,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         col.addView(toolbar, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
+        // Vyshyvanka ornament band — brand element under the dark toolbar on every screen.
+        android.widget.ImageView band = new android.widget.ImageView(this);
+        band.setImageResource(R.drawable.ornament_band);
+        band.setScaleType(android.widget.ImageView.ScaleType.FIT_XY);
+        band.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        col.addView(band, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                getResources().getDimensionPixelSize(R.dimen.ornament_band_height)));
+
         FrameLayout content = new FrameLayout(this);
         content.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
@@ -77,6 +86,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             int id = item.getItemId();
             if (id == R.id.nav_home) openHome();
             else if (id == R.id.nav_search) startActivity(new Intent(this, SearchActivity.class));
+            else if (id == R.id.nav_scan) startActivity(new Intent(this, ScanActivity.class));
             else if (id == R.id.nav_contact) openContact();
             else if (id == R.id.nav_account) openAccount();
             return true;
@@ -107,9 +117,22 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void bindDbStatus(View header) {
         TextView t = header.findViewById(R.id.txt_db_status);
-        String last = new CatalogMeta(this).lastUpdatedGlobal();
-        t.setText(last.isEmpty() ? getString(R.string.db_status_never)
-                : getString(R.string.db_status_format, last));
+        CatalogMeta meta = new CatalogMeta(this);
+        String last = meta.lastUpdatedGlobal();
+        if (last.isEmpty()) {
+            t.setText(R.string.db_status_never);
+            return;
+        }
+        if (meta.isLatest(System.currentTimeMillis())) {
+            // Every country verified within the TTL: show the "latest" badge plus BOTH
+            // dates — the catalog's own date and when we last checked for updates.
+            String checked = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm",
+                    java.util.Locale.getDefault())
+                    .format(new java.util.Date(meta.lastCheckedGlobal()));
+            t.setText(getString(R.string.db_status_latest_format, last, checked));
+        } else {
+            t.setText(getString(R.string.db_status_format, last));
+        }
     }
 
     public void showProgress(boolean show) {
@@ -128,7 +151,17 @@ public abstract class BaseActivity extends AppCompatActivity {
             onUpdateDbRequested();
             return true;
         }
+        if (item.getItemId() == R.id.action_scan) {
+            startActivity(scanIntent());
+            return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    /** Intent for the scan screen. Screens that know the selected countries override
+     *  this to pass them along so the scan result is checked against the right catalog. */
+    protected Intent scanIntent() {
+        return new Intent(this, ScanActivity.class);
     }
 
     @Override

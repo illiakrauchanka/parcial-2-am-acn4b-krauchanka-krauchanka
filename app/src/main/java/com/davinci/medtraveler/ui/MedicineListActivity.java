@@ -145,7 +145,7 @@ public class MedicineListActivity extends BaseActivity {
             if (updated > 0) {
                 CatalogNotifier.notifyUpdated(this, total, meta.lastUpdatedGlobal());
             } else {
-                android.widget.Toast.makeText(this, R.string.db_no_changes,
+                android.widget.Toast.makeText(this, R.string.db_update_failed,
                         android.widget.Toast.LENGTH_SHORT).show();
             }
         });
@@ -163,7 +163,7 @@ public class MedicineListActivity extends BaseActivity {
         boolean mine = myMedIds.contains(m.id);
         row.findViewById(R.id.txt_mine_badge).setVisibility(mine ? View.VISIBLE : View.GONE);
         row.findViewById(R.id.row_root).setBackgroundResource(
-                mine ? R.drawable.bg_mine_highlight : android.R.color.transparent);
+                mine ? R.drawable.bg_mine_highlight : R.drawable.bg_card_row);
     }
 
     private void applyBadge(TextView badge, Status status) {
@@ -176,6 +176,12 @@ public class MedicineListActivity extends BaseActivity {
         }
         badge.setText(textRes);
         badge.setBackgroundTintList(ContextCompat.getColorStateList(this, colorRes));
+    }
+
+    @Override protected Intent scanIntent() {
+        Intent i = super.scanIntent();
+        i.putExtra(EXTRA_COUNTRY_CODES, codes.toArray(new String[0]));
+        return i;
     }
 
     @Override protected void onDestroy() {

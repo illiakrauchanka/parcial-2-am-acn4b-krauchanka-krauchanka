@@ -35,10 +35,10 @@ public final class CatalogJson {
     private CatalogJson() {}
 
     /** Supported catalog languages, in priority order for the legacy fallback. The RTDB
-     *  path scheme is {@code /meds/<country>/<lang>.json}. {@code es} is the bundled-seed
+     *  path scheme is {@code /meds/<country>/<lang>.json}. {@code en} is the bundled-seed
      *  default. */
     public static final String[] LANGS = {"es", "en", "uk", "be", "zh"};
-    public static final String DEFAULT_LANG = "es";
+    public static final String DEFAULT_LANG = "en";
 
     public static boolean isSupportedLang(String lang) {
         if (lang == null) return false;

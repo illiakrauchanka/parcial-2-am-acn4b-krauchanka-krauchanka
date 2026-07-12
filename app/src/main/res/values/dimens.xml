@@ -23,4 +23,7 @@
 
     <!-- Global top loading indicator -->
     <dimen name="progress_height">3dp</dimen>
+
+    <!-- Ornament band -->
+    <dimen name="ornament_band_height">12dp</dimen>
 </resources>

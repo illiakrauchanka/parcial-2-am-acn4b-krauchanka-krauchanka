@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- App palette -->
-    <color name="color_primary">#CC785C</color>
-    <color name="color_primary_dark">#B5664B</color>
-    <color name="color_accent">#A8563B</color>
+    <!-- Vyshyvanka palette: white ground, folk-red accent -->
+    <color name="color_primary">#C8102E</color>
+    <color name="color_primary_dark">#A50D26</color>
+    <color name="color_accent">#C8102E</color>
 
     <color name="toolbar_background">#191917</color>
 
     <!-- Surfaces -->
-    <color name="surface">#F0EEE6</color>
-    <color name="surface_variant">#E7E3D8</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_card">#FBF7F4</color>
+    <color name="surface_variant">#F2ECE8</color>
 
     <!-- Text -->
-    <color name="text_primary">#191917</color>
-    <color name="text_secondary">#6F6E66</color>
+    <color name="text_primary">#1A1A1A</color>
+    <color name="text_secondary">#5C5C5C</color>
     <color name="text_on_primary">#FFFFFF</color>
 
     <!-- Status semantic colors -->
-    <color name="status_allowed">#5B8C5A</color>
-    <color name="status_restricted">#CB8534</color>
-    <color name="status_penal">#B0463C</color>
+    <color name="status_allowed">#2E7D46</color>
+    <color name="status_restricted">#C77800</color>
+    <color name="status_penal">#8E1420</color>
 
     <!-- Quote styling -->
-    <color name="quote_background">#EBE7DB</color>
-    <color name="quote_border">#CC785C</color>
+    <color name="quote_background">#FBF2F0</color>
+    <color name="quote_border">#C8102E</color>
 
     <!-- Highlight for the user's saved meds -->
-    <color name="mine_highlight">#F0E9DA</color>
+    <color name="mine_highlight">#FDECEC</color>
+
+    <!-- Ornament -->
+    <color name="ornament_red">#C8102E</color>
+    <color name="ornament_faint">#F5D9DD</color>
 </resources>

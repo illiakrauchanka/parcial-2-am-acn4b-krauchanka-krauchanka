@@ -60,10 +60,11 @@
     <string name="drawer_open">Відкрити меню</string>
     <string name="drawer_close">Закрити меню</string>
     <string name="db_status_format">Базу оновлено: %1$s</string>
+    <string name="db_status_latest_format">База: %1$s · latest — перевірено %2$s</string>
     <string name="db_status_never">Базу ще не оновлено</string>
     <string name="updating_db">Оновлення бази…</string>
     <string name="db_updated">Базу оновлено</string>
-    <string name="db_no_changes">Без оновлень або без з\'єднання</string>
+    <string name="db_update_failed">Не вдалося оновити — перевірте з\'єднання</string>
 
     <!-- Catalog notification -->
     <string name="notif_channel_name">Оновлення каталогу</string>
@@ -89,6 +90,16 @@
     <string name="auth_err_password_short">Пароль має містити щонайменше %1$d символів.</string>
     <string name="auth_google">Продовжити з Google</string>
 
+    <!-- Account deletion (required by Google Play policy since 2022) -->
+    <string name="account_delete">Видалити обліковий запис</string>
+    <string name="account_delete_confirm_title">Видалити обліковий запис?</string>
+    <string name="account_delete_confirm_body">Ваш обліковий запис і збережені ліки буде назавжди видалено. Цю дію не можна скасувати.</string>
+    <string name="account_delete_yes">Видалити</string>
+    <string name="account_delete_no">Скасувати</string>
+    <string name="account_deleted">Обліковий запис видалено</string>
+    <string name="account_delete_reauth">Увійдіть знову, щоб можна було видалити обліковий запис.</string>
+    <string name="account_delete_failed">Не вдалося видалити обліковий запис. Спробуйте ще раз.</string>
+
     <!-- My meds / detail -->
     <string name="detail_take_med">Я приймаю ці ліки</string>
     <string name="detail_taken_ok">Збережено у ваших ліках</string>
@@ -108,4 +119,24 @@
 
     <!-- Search -->
     <string name="search_empty">Без результатів</string>
+
+    <!-- Scan screen -->
+    <string name="menu_scan">Сканувати ліки</string>
+    <string name="scan_title">Сканувати ліки</string>
+    <string name="scan_hint">Сфотографуйте упаковку, щоб визначити діючу речовину.</string>
+    <string name="scan_take_photo">Зробити фото</string>
+    <string name="scan_pick_gallery">Вибрати з галереї</string>
+    <string name="scan_recognizing">Розпізнавання тексту…</string>
+    <string name="scan_looking_up">Пошук діючої речовини…</string>
+    <string name="scan_brand_label">Розпізнана назва</string>
+    <string name="scan_substance_label">Діюча речовина</string>
+    <string name="scan_substance_unknown">Не визначено — можете відредагувати назву і все одно зберегти</string>
+    <string name="scan_warning_restricted">Увага! Ця речовина є у списку ваших країн призначення. Торкніться, щоб побачити деталі.</string>
+    <string name="scan_save">Я приймаю ці ліки</string>
+    <string name="scan_retry">Повторити</string>
+    <string name="scan_error_ocr">Не вдалося розпізнати текст на зображенні</string>
+    <string name="scan_error_network">Помилка мережі під час пошуку речовини</string>
+    <string name="scan_saved">Збережено в моїх ліках</string>
+    <string name="scan_save_fail">Не вдалося зберегти</string>
+    <string name="cd_scan_preview">Фото ліків</string>
 </resources>
