@@ -231,6 +231,61 @@ class AdapterParseTest(unittest.TestCase):
         with self.assertRaises(uc.ParserFailure):
             uc.parse_br(b"%PDF-1.4 empty")
 
+    def test_parse_jp_fixture(self):
+        raw = (FIXTURES / "jp_mhlw.pdf").read_bytes()
+        subs = uc.parse_jp(raw)
+        self.assertGreater(len(subs), 3)
+        names = {s.name.upper() for s in subs}
+        self.assertIn("METHAMPHETAMINE, PHENYLMETHYLAMINOPROPANE", names)  # ✔ -> PENAL
+        self.assertIn("LORAZEPAM", names)  # ― -> RESTRICTED
+        statuses = {s.status for s in subs}
+        self.assertEqual(statuses, {"RESTRICTED", "PENAL"})
+        for s in subs:
+            self.assertIn(s.status, ("RESTRICTED", "PENAL"))
+            self.assertTrue(s.name.strip())
+            self.assertTrue(s.source_url.startswith("http"))
+
+    def test_parse_jp_garbage_raises(self):
+        with self.assertRaises(uc.ParserFailure):
+            uc.parse_jp(b"%PDF-1.4 empty")
+
+    def test_parse_sg_fixture(self):
+        raw = (FIXTURES / "sg_hsa.html").read_bytes()
+        subs = uc.parse_sg(raw)
+        self.assertGreater(len(subs), 3)
+        names = {s.name.upper() for s in subs}
+        self.assertIn("AMPHETAMINE", names)  # Class A -> PENAL
+        self.assertIn("CODEINE", names)  # Class B -> RESTRICTED
+        self.assertIn("TRIAZOLAM", names)  # Class C -> RESTRICTED
+        statuses = {s.status for s in subs}
+        self.assertEqual(statuses, {"RESTRICTED", "PENAL"})
+        for s in subs:
+            self.assertIn(s.status, ("RESTRICTED", "PENAL"))
+            self.assertTrue(s.name.strip())
+            self.assertTrue(s.source_url.startswith("http"))
+
+    def test_parse_sg_garbage_raises(self):
+        with self.assertRaises(uc.ParserFailure):
+            uc.parse_sg(b"<html><body>not the schedule</body></html>")
+
+    def test_parse_ae_fixture(self):
+        raw = (FIXTURES / "ae_mohap.pdf").read_bytes()
+        subs = uc.parse_ae(raw)
+        self.assertGreater(len(subs), 3)
+        names = {s.name.upper() for s in subs}
+        self.assertIn("COCAINE", names)  # Prohibited -> PENAL
+        self.assertIn("ALPRAZOLAM", names)  # prescription route -> RESTRICTED
+        statuses = {s.status for s in subs}
+        self.assertEqual(statuses, {"RESTRICTED", "PENAL"})
+        for s in subs:
+            self.assertIn(s.status, ("RESTRICTED", "PENAL"))
+            self.assertTrue(s.name.strip())
+            self.assertTrue(s.source_url.startswith("http"))
+
+    def test_parse_ae_garbage_raises(self):
+        with self.assertRaises(uc.ParserFailure):
+            uc.parse_ae(b"%PDF-1.4 empty")
+
 
 if __name__ == "__main__":
     unittest.main()

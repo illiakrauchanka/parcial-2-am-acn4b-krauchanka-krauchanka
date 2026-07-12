@@ -397,6 +397,199 @@ def fetch_br(offline):
 ADAPTERS["BR"] = fetch_br
 
 
+# ----------------------------------------------------------------- JP (MHLW)
+# The Narcotics Control Department (NCD, part of MHLW)'s English site links
+# a single consolidated "Controlled Substances List" PDF covering everything
+# regulated under the Narcotics and Psychotropics Control Law, the Stimulants
+# Control Law, the Cannabis-cultivation Act and the Opium Control Act. The
+# filename really does contain the typo "cotrolled" and a literal space
+# before ".pdf" (URL-encoded %20) — copied verbatim from ncd.mhlw.go.jp.
+JP_URL = (
+    "https://www.ncd.mhlw.go.jp/dl_data/keitai/cotrolled_substances_list20241212%20.pdf"
+)
+
+# Each row carries a "Prohibited Substance" column: a "✔" means the
+# substance may never be imported/exported at all (no permit process
+# exists) — e.g. cannabis, heroin, (met)amphetamine, opium, methaqualone —
+# so that maps to PENAL. A "―" means the substance is controlled but a
+# yakkan-shoumei (import confirmation) permit can be obtained for personal
+# medical use, i.e. a legitimate-with-paperwork medicine -> RESTRICTED.
+_JP_NAME_FIRST_LINE_RE = re.compile(r"\s*\n.*", re.DOTALL)
+
+
+def parse_jp(raw):
+    import io
+
+    import pdfplumber  # lazy: offline unit tests import module w/o pdfplumber
+
+    try:
+        with pdfplumber.open(io.BytesIO(raw)) as pdf:
+            rows = []
+            for page in pdf.pages:
+                for table in page.extract_tables():
+                    rows.extend(table)
+    except Exception as e:  # noqa: BLE001 - any malformed PDF is a parser failure
+        raise ParserFailure(
+            f"MHLW controlled substances PDF could not be read (format changed?): {e}"
+        ) from e
+
+    subs = []
+    for row in rows:
+        if not row or len(row) < 3:
+            continue
+        name, category, prohibited = row[0], row[1], row[2]
+        if not name or category in (None, "Category*1") or name == "Substance":
+            continue  # repeated per-page header row
+        name = _JP_NAME_FIRST_LINE_RE.sub("", str(name)).strip()
+        if not name:
+            continue
+        status = "PENAL" if prohibited and "✔" in prohibited else "RESTRICTED"
+        subs.append(Substance(name, status, JP_URL))
+    return require_nonempty(
+        subs, "MHLW controlled substances list yielded no substances (layout changed?)"
+    )
+
+
+def fetch_jp(offline):
+    return parse_jp(fetch_cached(JP_URL, "jp_mhlw.pdf", offline))
+
+
+ADAPTERS["JP"] = fetch_jp
+
+
+# ------------------------------------------------------------------ SG (HSA)
+# HSA's own pages (controlled-drugs-psychotropic-substances/*) only describe
+# licensing *procedures*, they don't enumerate substances. The actual
+# substance-level list is the First Schedule to the Misuse of Drugs Act 1973
+# itself, published in full (with live amendment annotations) on Singapore
+# Statutes Online — the canonical source HSA's own regulatory pages point
+# back to via the Act citation.
+SG_URL = "https://sso.agc.gov.sg/Act/MDA1973?ProvIds=Sc1-"
+
+# The First Schedule splits controlled drugs into Part 1 "Class A Drugs"
+# (heroin, cocaine, cannabis, LSD, methamphetamine... - no accepted medical
+# use, simple possession is prosecuted) -> PENAL, and Part 2/3 "Class B/C
+# Drugs" (codeine, dihydrocodeine, methylphenidate, triazolam,
+# flunitrazepam, secobarbital... - legitimate prescription medicines kept
+# under stricter Poisons Act / import-licence control) -> RESTRICTED. This
+# mirrors the same PENAL="no medical use" vs RESTRICTED="controlled medicine"
+# split already used for AR/BR, just keyed off Class instead of LISTA/Anexo.
+_SG_CLASS_HEADERS = {
+    "CLASS A DRUGS": "PENAL",
+    "Class B Drugs": "RESTRICTED",
+    "Class C Drugs": "RESTRICTED",
+}
+_SG_BOILERPLATE_RE = re.compile(r"^\d+\.\s")
+
+
+def parse_sg(raw):
+    from bs4 import BeautifulSoup  # lazy: offline unit tests import module w/o bs4
+
+    text = raw.decode("utf-8", errors="ignore")
+    start = text.find('id="Sc1-"')
+    if start == -1:
+        raise ParserFailure(
+            "MDA 1973 First Schedule marker not found in SSO page (layout changed?)"
+        )
+    end = text.find('id="Sc2-"', start)
+    chunk = text[start : end if end != -1 else start + 400_000]
+    soup = BeautifulSoup(chunk, "html.parser")
+
+    current_status = None
+    subs = []
+    for el in soup.find_all("td"):
+        classes = el.get("class") or []
+        cell_text = el.get_text(" ", strip=True)
+        if "sGrpHdrCaps" in classes:
+            # Any header outside Class A/B/C (e.g. Part 4 "Meaning of Certain
+            # Terms...") ends the schedule proper - stop collecting rows.
+            current_status = _SG_CLASS_HEADERS.get(cell_text)
+            continue
+        if current_status is None:
+            continue
+        if "sProvP1" in classes:
+            name = cell_text.strip()
+        elif cell_text.endswith(".") and not el.find("td"):
+            name = cell_text[:-1].strip()
+        else:
+            continue
+        if not name or name.startswith("[") or _SG_BOILERPLATE_RE.match(name):
+            continue  # "[Deleted by S .../20xx]" / "2. Any stereoisomeric form..."
+        subs.append(Substance(name, current_status, SG_URL))
+    return require_nonempty(
+        subs, "MDA 1973 First Schedule yielded no substances (layout changed?)"
+    )
+
+
+def fetch_sg(offline):
+    return parse_sg(fetch_cached(SG_URL, "sg_hsa.html", offline))
+
+
+ADAPTERS["SG"] = fetch_sg
+
+
+# ---------------------------------------------------------------- AE (MOHAP)
+# MOHAP's own domain (mohap.gov.ae) was unreachable from this environment
+# (TLS handshake never completes / connections time out) even though it
+# resolves in DNS - flagged here per the "flag mirrors" rule. The UAE
+# Ministry of Foreign Affairs hosts an official mirror of the same data,
+# explicitly captioned as "an alphabetical list of INCB and MOH&P [MOHAP]
+# controlled Narcotics / Psychotropics and Controlled (CD) Drugs ... their
+# Scheduling and level of restrictions to carry with travellers to the UAE",
+# i.e. MOFA republishing MOHAP's own scheduling for travelers - not a
+# third-party summary site.
+AE_URL = "https://www.mofa.gov.ae/-/media/ANNEX%20TO%20TRAVELLERS%20GUIDELINES%20PDF2"
+
+
+# The table's last column ("Allowed Quantity & Documents to be kept with the
+# traveller") is literally "Prohibited" for substances with zero legitimate
+# import path (cannabis, cocaine, heroin, coca leaf...) -> PENAL. Every other
+# row spells out the prescription/medical-report paperwork required to carry
+# a personal quantity -> RESTRICTED.
+def parse_ae(raw):
+    import io
+
+    import pdfplumber  # lazy: offline unit tests import module w/o pdfplumber
+
+    try:
+        with pdfplumber.open(io.BytesIO(raw)) as pdf:
+            rows = []
+            for page in pdf.pages:
+                for table in page.extract_tables():
+                    rows.extend(table)
+    except Exception as e:  # noqa: BLE001 - any malformed PDF is a parser failure
+        raise ParserFailure(
+            f"MOHAP/MOFA controlled drugs PDF could not be read (format changed?): {e}"
+        ) from e
+
+    subs = []
+    for row in rows:
+        if not row or len(row) < 4:
+            continue
+        sl, name, category, allowed = row[0], row[1], row[2], row[3]
+        if not sl or not str(sl).strip().isdigit() or not name:
+            continue  # header/caption rows ("SL #", the intro paragraph, ...)
+        name = str(name).replace("\n", " ").strip()
+        if not name:
+            continue
+        status = (
+            "PENAL"
+            if allowed and allowed.strip().startswith("Prohibited")
+            else "RESTRICTED"
+        )
+        subs.append(Substance(name, status, AE_URL))
+    return require_nonempty(
+        subs, "MOHAP/MOFA controlled drugs list yielded no substances (layout changed?)"
+    )
+
+
+def fetch_ae(offline):
+    return parse_ae(fetch_cached(AE_URL, "ae_mohap.pdf", offline))
+
+
+ADAPTERS["AE"] = fetch_ae
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
