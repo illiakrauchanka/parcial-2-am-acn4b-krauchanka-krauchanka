@@ -195,8 +195,206 @@ def fetch_cached(url, cache_name, offline):
     return resp.content
 
 
-# Filled by the per-country adapters (fetch_ar, fetch_br, ...) defined below.
 ADAPTERS = {}
+
+# ---------------------------------------------------------------- AR (ANMAT)
+# ANMAT's own domain (anmat.gob.ar/ssce/*.pdf) serves the raw files directly
+# but the current *canonical, versioned* mirror is the listing page
+# https://www.argentina.gob.ar/anmat/regulados/controlespecial/listados which
+# links this exact file. The live source turned out to be an .xlsx spreadsheet
+# ("Listado de Sustancias Controladas - Psicotrópicos"), not HTML or PDF.
+AR_URL = "https://www.argentina.gob.ar/sites/default/files/psicotropicos_2016.xlsx"
+
+# ANMAT's "SITUACIÓN REGULATORIA" column tags every row with "LISTA I/II/III/IV"
+# (Ley 19.303, based on the 1971 UN Convention on Psychotropic Substances
+# schedules). LISTA I substances (e.g. 4-metilaminorex, LSD-type hallucinogens)
+# have no accepted medical use and are treated as criminal offenses to possess
+# under Ley 23.737 -> PENAL. LISTA II-IV are legitimate prescription medicines
+# (stimulants, barbiturates, benzodiazepines) under pharmacy control -> RESTRICTED.
+AR_STATUS_MAP = {
+    "IV": "RESTRICTED",
+    "III": "RESTRICTED",
+    "II": "RESTRICTED",
+    "I": "PENAL",
+}
+_AR_LISTA_RE = re.compile(r"LISTA\s+(IV|III|II|I)\b")
+
+
+def parse_ar(raw):
+    import io
+
+    import openpyxl  # lazy: offline unit tests import module w/o openpyxl
+
+    try:
+        wb = openpyxl.load_workbook(io.BytesIO(raw), data_only=True)
+        ws = wb.active
+        rows = list(ws.iter_rows(min_row=2, values_only=True))
+    except Exception as e:  # noqa: BLE001 - any malformed workbook is a parser failure
+        raise ParserFailure(
+            f"ANMAT psicotrópicos workbook could not be read (format changed?): {e}"
+        ) from e
+
+    subs = []
+    for row in rows:
+        if not row or len(row) < 7:
+            continue
+        name, situacion = row[1], row[6]
+        if not name or not situacion:
+            continue
+        name = str(name).strip()
+        if not name or " ver " in f" {name.lower()} ":
+            continue  # synonym/redirect rows ("Amfetamina Ver ANFETAMINA")
+        m = _AR_LISTA_RE.search(str(situacion).upper())
+        if not m:
+            continue
+        subs.append(Substance(name, AR_STATUS_MAP[m.group(1)], AR_URL))
+    return require_nonempty(
+        subs, "ANMAT psicotrópicos sheet yielded no substances (layout changed?)"
+    )
+
+
+# ANMAT publishes narcotics ("estupefacientes", Ley 17818/68) as a SEPARATE
+# document from psychotropics: cocaine, LSD (as "LISÉRGIDA"), methadone,
+# codeine, morphine etc. only appear here, not in AR_URL above. The table
+# tags every row "LISTA I/II/III/IV. LEY 17818/68" too, but unlike
+# psicotrópicos, ALL narcotic schedules are criminally prosecuted for simple
+# possession under Ley 23.737 in Argentina -> every row here maps to PENAL
+# regardless of its internal LISTA number.
+ESTUP_URL = "https://www.argentina.gob.ar/sites/default/files/estupefacientes_2016.pdf"
+_AR_ESTUP_LISTA_RE = re.compile(r"LISTA\s+(IV|III|II|I)\b")
+
+
+def parse_ar_estupefacientes(raw):
+    import io
+
+    import pdfplumber  # lazy: offline unit tests import module w/o pdfplumber
+
+    try:
+        with pdfplumber.open(io.BytesIO(raw)) as pdf:
+            rows = []
+            for page in pdf.pages:
+                for table in page.extract_tables():
+                    rows.extend(table)
+    except Exception as e:  # noqa: BLE001 - any malformed PDF is a parser failure
+        raise ParserFailure(
+            f"ANMAT estupefacientes PDF could not be read (format changed?): {e}"
+        ) from e
+
+    subs = []
+    for row in rows:
+        if not row or len(row) < 6:
+            continue
+        name, situacion = row[0], row[5]
+        if not name or not situacion:
+            continue
+        name = name.replace("\n", " ").strip()
+        if not name or " ver " in f" {name.lower()} ":
+            continue  # synonym/redirect rows ("LSD Ver LISÉRGIDA")
+        if not _AR_ESTUP_LISTA_RE.search(str(situacion).upper()):
+            continue
+        subs.append(Substance(name, "PENAL", ESTUP_URL))
+    return require_nonempty(
+        subs, "ANMAT estupefacientes table yielded no substances (layout changed?)"
+    )
+
+
+def fetch_ar(offline):
+    psico = parse_ar(fetch_cached(AR_URL, "ar_anmat.xlsx", offline))
+    estup = parse_ar_estupefacientes(
+        fetch_cached(ESTUP_URL, "ar_anmat_estupefacientes.pdf", offline)
+    )
+    return psico + estup
+
+
+ADAPTERS["AR"] = fetch_ar
+
+
+# --------------------------------------------------------------- BR (ANVISA)
+# The consolidated ("_COMP" = compilada) text of Portaria SVS/MS 344/98,
+# reproducing every update through 2016, is mirrored on the legacy ANVISA
+# portal. The current gov.br controlled-substances page only links individual
+# amendment RDCs (not a consolidated annex), so this compiled PDF -- hosting
+# the same legally-in-force annex text -- is the best parseable official
+# source; noted here per the "no faking" rule.
+BR_URL = (
+    "https://antigo.anvisa.gov.br/documents/10181/2718376/PRT_SVS_344_1998_COMP.pdf"
+)
+
+# Anexo I lists: A1/A2 (entorpecentes - narcotics) and A3 (psicotrópicas de
+# Notificação de Receita "A", the strictest control tier) match substances
+# criminally prosecuted for simple possession -> PENAL. B1/B2 (psicotrópicas,
+# Notificação "B") and C1.. (other special-control substances, e.g.
+# anticonvulsants/antidepressants) are prescription-only medicines -> RESTRICTED.
+BR_STATUS_MAP = {
+    "A1": "PENAL",
+    "A2": "PENAL",
+    "A3": "PENAL",
+    "B1": "RESTRICTED",
+    "B2": "RESTRICTED",
+    "C1": "RESTRICTED",
+    "C2": "RESTRICTED",
+    "C3": "RESTRICTED",
+    "C4": "RESTRICTED",
+    "C5": "RESTRICTED",
+}
+_BR_HEADER_RE = re.compile(r"^LISTA\s*-\s*([A-Z]\d?)\s*-", re.MULTILINE)
+_BR_ITEM_RE = re.compile(r"^\d+[.\)]\s*(.+)$")
+
+
+def _br_section_items(section_text):
+    """Numbered entries may wrap to a following line; merge continuations
+    (lines not starting with 'N.') onto the previous numbered line, stop at
+    the ADENDO footnotes block that follows every list."""
+    body = section_text.split("ADENDO")[0]
+    merged = []
+    for raw_line in body.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+        if re.match(r"^\d+[.\)]\s*\S", line) or re.match(r"^\d+[.\)]$", line):
+            merged.append(line)
+        elif merged:
+            merged[-1] += " " + line
+    for line in merged:
+        m = _BR_ITEM_RE.match(line)
+        if m:
+            name = m.group(1).strip().rstrip(".")
+            if name:
+                yield name
+
+
+def parse_br(raw):
+    import io
+
+    import pdfplumber  # lazy: offline unit tests import module w/o pdfplumber
+
+    try:
+        with pdfplumber.open(io.BytesIO(raw)) as pdf:
+            text = "\n".join(page.extract_text() or "" for page in pdf.pages)
+    except Exception as e:  # noqa: BLE001 - any malformed PDF is a parser failure
+        raise ParserFailure(
+            f"ANVISA Anexo I PDF could not be read (format changed?): {e}"
+        ) from e
+
+    headers = list(_BR_HEADER_RE.finditer(text))
+    subs = []
+    for i, m in enumerate(headers):
+        status = BR_STATUS_MAP.get(m.group(1))
+        if not status:
+            continue
+        end = headers[i + 1].start() if i + 1 < len(headers) else len(text)
+        for name in _br_section_items(text[m.end() : end]):
+            subs.append(Substance(name, status, BR_URL))
+    return require_nonempty(
+        subs, "ANVISA Anexo I yielded no substances (layout changed?)"
+    )
+
+
+def fetch_br(offline):
+    return parse_br(fetch_cached(BR_URL, "br_anvisa.pdf", offline))
+
+
+ADAPTERS["BR"] = fetch_br
 
 
 def main(argv=None):

@@ -1,6 +1,9 @@
+import pathlib
 import unittest
 
 import update_catalog as uc
+
+FIXTURES = pathlib.Path(__file__).resolve().parent / "fixtures"
 
 
 class NormalizeNameTest(unittest.TestCase):
@@ -169,6 +172,64 @@ class ZeroParseIsFailureTest(unittest.TestCase):
             uc.require_nonempty([], "HSA page yielded no rows")
         subs = [uc.Substance("x", "PENAL", "u")]
         self.assertIs(uc.require_nonempty(subs, "msg"), subs)
+
+
+class AdapterParseTest(unittest.TestCase):
+    # AR (ANMAT) source turned out to be an .xlsx ("psicotropicos_2016.xlsx",
+    # official mirror at argentina.gob.ar/anmat/regulados/controlespecial/listados)
+    # rather than HTML — see the Step 1 notes in the task report.
+    def test_parse_ar_fixture(self):
+        raw = (FIXTURES / "ar_anmat.xlsx").read_bytes()
+        subs = uc.parse_ar(raw)
+        self.assertGreater(len(subs), 3)
+        names = {s.name.upper() for s in subs}
+        self.assertIn("ALPRAZOLAM", names)  # LISTA IV -> RESTRICTED
+        self.assertIn("4-METILAMINOREX", names)  # LISTA I -> PENAL
+        statuses = {s.status for s in subs}
+        self.assertEqual(statuses, {"RESTRICTED", "PENAL"})
+        for s in subs:
+            self.assertIn(s.status, ("RESTRICTED", "PENAL"))
+            self.assertTrue(s.name.strip())
+            self.assertTrue(s.source_url.startswith("http"))
+
+    def test_parse_ar_estupefacientes_fixture(self):
+        # ANMAT publishes narcotics (estupefacientes: cocaine, LSD, morphine...)
+        # as a separate document from psychotropics; fetch_ar combines both.
+        raw = (FIXTURES / "ar_anmat_estupefacientes.pdf").read_bytes()
+        subs = uc.parse_ar_estupefacientes(raw)
+        self.assertGreater(len(subs), 3)
+        names = {s.name.upper() for s in subs}
+        self.assertIn("COCAINA", names)
+        for s in subs:
+            self.assertEqual(s.status, "PENAL")  # every narcotic is PENAL
+            self.assertTrue(s.name.strip())
+            self.assertTrue(s.source_url.startswith("http"))
+
+    def test_parse_ar_estupefacientes_garbage_raises(self):
+        with self.assertRaises(uc.ParserFailure):
+            uc.parse_ar_estupefacientes(b"%PDF-1.4 empty")
+
+    def test_parse_br_fixture(self):
+        raw = (FIXTURES / "br_anvisa.pdf").read_bytes()
+        subs = uc.parse_br(raw)
+        self.assertGreater(len(subs), 3)
+        names = {s.name.upper() for s in subs}
+        self.assertIn("MORFINA", names)  # LISTA A1 -> PENAL
+        self.assertIn("DIAZEPAM", names)  # LISTA B1 -> RESTRICTED
+        statuses = {s.status for s in subs}
+        self.assertEqual(statuses, {"RESTRICTED", "PENAL"})
+        for s in subs:
+            self.assertIn(s.status, ("RESTRICTED", "PENAL"))
+            self.assertTrue(s.name.strip())
+            self.assertTrue(s.source_url.startswith("http"))
+
+    def test_parse_ar_garbage_raises(self):
+        with self.assertRaises(uc.ParserFailure):
+            uc.parse_ar(b"not a real xlsx file")
+
+    def test_parse_br_garbage_raises(self):
+        with self.assertRaises(uc.ParserFailure):
+            uc.parse_br(b"%PDF-1.4 empty")
 
 
 if __name__ == "__main__":
