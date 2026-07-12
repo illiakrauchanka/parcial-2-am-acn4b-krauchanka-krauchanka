@@ -60,10 +60,11 @@
     <string name="drawer_open">Open menu</string>
     <string name="drawer_close">Close menu</string>
     <string name="db_status_format">Database updated: %1$s</string>
+    <string name="db_status_latest_format">Database: %1$s · latest — checked %2$s</string>
     <string name="db_status_never">Database not updated yet</string>
     <string name="updating_db">Updating database…</string>
     <string name="db_updated">Database updated</string>
-    <string name="db_no_changes">No updates or no connection</string>
+    <string name="db_update_failed">Couldn\'t update — check your connection</string>
 
     <!-- Catalog notification -->
     <string name="notif_channel_name">Catalog updates</string>

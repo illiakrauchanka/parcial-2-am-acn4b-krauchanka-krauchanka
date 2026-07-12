@@ -60,10 +60,11 @@
     <string name="drawer_open">打开菜单</string>
     <string name="drawer_close">关闭菜单</string>
     <string name="db_status_format">数据库已更新: %1$s</string>
+    <string name="db_status_latest_format">数据库：%1$s · latest — 检查于 %2$s</string>
     <string name="db_status_never">数据库尚未更新</string>
     <string name="updating_db">正在更新数据库…</string>
     <string name="db_updated">数据库已更新</string>
-    <string name="db_no_changes">无更新或无连接</string>
+    <string name="db_update_failed">无法更新 — 请检查网络连接</string>
 
     <!-- Catalog notification -->
     <string name="notif_channel_name">目录更新</string>

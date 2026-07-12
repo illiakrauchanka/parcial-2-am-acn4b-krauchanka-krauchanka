@@ -117,9 +117,22 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void bindDbStatus(View header) {
         TextView t = header.findViewById(R.id.txt_db_status);
-        String last = new CatalogMeta(this).lastUpdatedGlobal();
-        t.setText(last.isEmpty() ? getString(R.string.db_status_never)
-                : getString(R.string.db_status_format, last));
+        CatalogMeta meta = new CatalogMeta(this);
+        String last = meta.lastUpdatedGlobal();
+        if (last.isEmpty()) {
+            t.setText(R.string.db_status_never);
+            return;
+        }
+        if (meta.isLatest(System.currentTimeMillis())) {
+            // Every country verified within the TTL: show the "latest" badge plus BOTH
+            // dates — the catalog's own date and when we last checked for updates.
+            String checked = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm",
+                    java.util.Locale.getDefault())
+                    .format(new java.util.Date(meta.lastCheckedGlobal()));
+            t.setText(getString(R.string.db_status_latest_format, last, checked));
+        } else {
+            t.setText(getString(R.string.db_status_format, last));
+        }
     }
 
     public void showProgress(boolean show) {

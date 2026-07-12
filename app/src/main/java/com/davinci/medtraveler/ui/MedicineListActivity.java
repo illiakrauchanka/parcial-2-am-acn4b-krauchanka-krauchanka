@@ -145,7 +145,7 @@ public class MedicineListActivity extends BaseActivity {
             if (updated > 0) {
                 CatalogNotifier.notifyUpdated(this, total, meta.lastUpdatedGlobal());
             } else {
-                android.widget.Toast.makeText(this, R.string.db_no_changes,
+                android.widget.Toast.makeText(this, R.string.db_update_failed,
                         android.widget.Toast.LENGTH_SHORT).show();
             }
         });

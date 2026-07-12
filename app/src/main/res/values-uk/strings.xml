@@ -60,10 +60,11 @@
     <string name="drawer_open">Відкрити меню</string>
     <string name="drawer_close">Закрити меню</string>
     <string name="db_status_format">Базу оновлено: %1$s</string>
+    <string name="db_status_latest_format">База: %1$s · latest — перевірено %2$s</string>
     <string name="db_status_never">Базу ще не оновлено</string>
     <string name="updating_db">Оновлення бази…</string>
     <string name="db_updated">Базу оновлено</string>
-    <string name="db_no_changes">Без оновлень або без з\'єднання</string>
+    <string name="db_update_failed">Не вдалося оновити — перевірте з\'єднання</string>
 
     <!-- Catalog notification -->
     <string name="notif_channel_name">Оновлення каталогу</string>
