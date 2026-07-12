@@ -118,7 +118,7 @@ def diff_catalog(catalog_items, scraped):
     missing, status_changed = [], []
     for item in catalog_items:
         keys = _catalog_keys(item)
-        hits = [scraped_by_key[k] for k in keys if k in scraped_by_key]
+        hits = [scraped_by_key[k] for k in sorted(keys) if k in scraped_by_key]
         if not hits:
             missing.append(item)
             continue

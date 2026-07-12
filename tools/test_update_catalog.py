@@ -99,6 +99,25 @@ class DiffCatalogTest(unittest.TestCase):
         self.assertEqual(d["new"], [])
         self.assertEqual(d["missing"], [])
 
+    def test_multi_key_conflict_is_deterministic(self):
+        # one item known by two names, each hitting a different scraped status:
+        # sorted(keys) makes the alphabetically-first key win, every run.
+        catalog = [
+            {
+                "id": "x",
+                "name": "Alpha",
+                "activeSubstance": "Beta",
+                "status": "PENAL",
+            }
+        ]
+        scraped = [
+            uc.Substance("alpha", "PENAL", "u"),
+            uc.Substance("beta", "RESTRICTED", "u"),
+        ]
+        for _ in range(5):
+            d = uc.diff_catalog(catalog, scraped)
+            self.assertEqual(d["status_changed"], [])  # 'alpha' wins, status equal
+
 
 class MakeStubTest(unittest.TestCase):
     def test_stub_schema_complete(self):
