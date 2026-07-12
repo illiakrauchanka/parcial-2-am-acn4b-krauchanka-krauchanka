@@ -14,6 +14,13 @@
         <item name="materialCardViewStyle">@style/Widget.MedTraveler.Card</item>
     </style>
 
+    <!-- Fullscreen black theme for the launch splash (video/static image). -->
+    <style name="Theme.MedTraveler.Splash" parent="Theme.MedTraveler">
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:statusBarColor">@android:color/black</item>
+    </style>
+
     <style name="Widget.MedTraveler.Card" parent="Widget.MaterialComponents.CardView">
         <item name="cardBackgroundColor">@color/surface_card</item>
         <item name="cardCornerRadius">12dp</item>
