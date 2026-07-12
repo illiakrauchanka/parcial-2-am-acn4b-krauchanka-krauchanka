@@ -62,3 +62,4 @@ app/release/google-services.json
 # catalog updater artifacts (never commit)
 tools/cache/
 tools/out/
+__pycache__/
